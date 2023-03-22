@@ -24,8 +24,10 @@ public class kbmMovementAgent : Agent
     {
         TrainingProgressText.Episode++;
         // Give agent and target new starting positions at start of new episode
-        //transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, Random.Range(-9f, -5f));
-        targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+        // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, Random.Range(-9f, -5f));
+        transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, -7f);
+        // targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+        targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, 7f);
         
         
         //transform.localPosition = startPos;
