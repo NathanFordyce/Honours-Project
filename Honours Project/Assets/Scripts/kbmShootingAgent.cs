@@ -109,15 +109,15 @@ public class kbmShootingAgent : Agent
         
         Debug.Log("Episode Begin");
         
-        // transform.localPosition = startPos;     // Reset agent back to starting position
-        // transform.localRotation = startRot;
-        //enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
+        transform.localPosition = startPos;     // Reset agent back to starting position
+        transform.localRotation = startRot;
+        enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
         
         // Move enemy object to new position
-        if(!switchSide)
-            enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
-        else
-            enemyTransform.localPosition = new Vector3(4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
+        // if(!switchSide)
+        //     enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
+        // else
+        //     enemyTransform.localPosition = new Vector3(4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
 
         //rb.velocity = Vector3.zero; // Stop agent from moving
         shootAvailable = true;      // Reset shoot check

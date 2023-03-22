@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 1605900640527147952}
   - component: {fileID: 208313072860167251}
   - component: {fileID: 685648058467432229}
+  - component: {fileID: 4010148966238329399}
   m_Layer: 0
   m_Name: Kbm Agent
   m_TagString: Agent
@@ -166,7 +167,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2502806382080189713}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 324d8b6ef182f3843b5e2ca69cc8113b, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fa16721224019043b4ff90e2de281bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -203,9 +204,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 8deea6bd3738f0a4ea9192e19c9e0c16, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: b4391eb1c81a0b042a3c42b0a730f419, type: 3}
   m_InferenceDevice: 1
-  m_BehaviorType: 0
+  m_BehaviorType: 2
   m_BehaviorName: MoveWithSensor
   TeamId: 0
   m_UseChildSensors: 1
@@ -282,6 +283,22 @@ MonoBehaviour:
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
   m_StartVerticalOffset: 0
   m_EndVerticalOffset: 0
+--- !u!114 &4010148966238329399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2502806382080189713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
 --- !u!1 &4599309427941793397
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,6 +947,7 @@ GameObject:
   - component: {fileID: 5588848188339747854}
   - component: {fileID: 1188158651284581763}
   - component: {fileID: 3687116018943574307}
+  - component: {fileID: 8746781134185248716}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Agent
@@ -1040,7 +1058,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5588848188339747846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a2aadf9e70baf46ae654730e43b0f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 2735782a8572b4d40ae1993f77ec235a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -1156,6 +1174,22 @@ MonoBehaviour:
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
   m_StartVerticalOffset: 0
   m_EndVerticalOffset: 0
+--- !u!114 &8746781134185248716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5588848188339747846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
 --- !u!1 &6605240049977981872
 GameObject:
   m_ObjectHideFlags: 0
