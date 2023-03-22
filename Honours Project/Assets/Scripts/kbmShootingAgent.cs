@@ -9,7 +9,7 @@ using Unity.MLAgents.Sensors;
 using UnityEditor;
 using UnityEngine.Analytics;
 
-public class ShootingAgent : Agent
+public class kbmShootingAgent : Agent
 {
     [Header("Shooting")]
     [SerializeField] private Transform shootPoint;
@@ -83,6 +83,8 @@ public class ShootingAgent : Agent
     private void FixedUpdate()
     {
         TrainingProgressText.Reward = GetCumulativeReward();
+        
+        SetReward(-(1 / MaxStep));
 
         if (!shootAvailable)    // If shoot not available
         {
@@ -91,17 +93,12 @@ public class ShootingAgent : Agent
             if (stepsUntilCanShoot <= 0)    // Check if counter is over
                 shootAvailable = true;
         }
-
-        // if (transform.localPosition.z == enemyTransform.localPosition.z)
-        // {
-        //     AddReward(0.1f);
-        // }
     }
 
     public override void Initialize() // Used instead of Start()
     {
         startPos = transform.localPosition; // Get players starting position
-        startRot = transform.localRotation; // Get players starting position
+        startRot = transform.localRotation; // Get players starting rotation
         rb = GetComponent<Rigidbody>();     // Get agents rigid body component
     }
 
@@ -112,18 +109,18 @@ public class ShootingAgent : Agent
         
         Debug.Log("Episode Begin");
         
-        //transform.localPosition = startPos;     // Reset agent back to starting position
-        //transform.localRotation = startRot;
-        enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
+        // transform.localPosition = startPos;     // Reset agent back to starting position
+        // transform.localRotation = startRot;
+        //enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
         
         // Move enemy object to new position
-        // if(!switchSide)
-        //     enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
-        // else
-        //     enemyTransform.localPosition = new Vector3(4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
+        if(!switchSide)
+            enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
+        else
+            enemyTransform.localPosition = new Vector3(4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
 
         //rb.velocity = Vector3.zero; // Stop agent from moving
-        //shootAvailable = true;      // Reset shoot check
+        shootAvailable = true;      // Reset shoot check
         switchSide = !switchSide;
     }
     
@@ -139,38 +136,89 @@ public class ShootingAgent : Agent
     {
         // Give agent discrete action if E is pressed
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
-        discreteActions[0] = Input.GetKey(KeyCode.E) ? 1 : 0;
+        discreteActions[1] = Input.GetKey(KeyCode.R) ? 1 : 0;
         
         // Give agent continuous action if A/D is pressed
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetAxisRaw("Vertical");
-       
-        // Give agent continuous action if A/D is pressed
-        continuousActions[1] = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKey(KeyCode.O))
-            continuousActions[2] = -1;
+        if (Input.GetKey(KeyCode.Q))
+            continuousActions[0] = -1;
+        else if (Input.GetKey(KeyCode.E))
+            continuousActions[0] = 1;
+        
+        if (Input.GetKey(KeyCode.W))
+            discreteActions[0] = 1;
+        else if (Input.GetKey(KeyCode.S))
+            discreteActions[0] = 2;
+        else if (Input.GetKey(KeyCode.D))
+            discreteActions[0] = 3;
+        else if (Input.GetKey(KeyCode.A))
+            discreteActions[0] = 4;
         else if (Input.GetKey(KeyCode.P))
-            continuousActions[2] = 1;
+            discreteActions[0] = 5;
+        else if (Input.GetKey(KeyCode.O))
+            discreteActions[0] = 6;
+        else if (Input.GetKey(KeyCode.I))
+            discreteActions[0] = 7;
+        else if (Input.GetKey(KeyCode.U))
+            discreteActions[0] = 8;
+        else if (Input.GetKey(KeyCode.Space))
+            discreteActions[0] = 0;
 
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        if(actions.DiscreteActions[0] == 1) 
+        TrainingProgressText.ScreenText();
+        
+        // Store the continuous actions for X and Y positions
+        float moveX = 0;
+        float moveZ = 0;
+        
+        float moveSpeed = 2.5f; // Agents speed
+
+        // Use corresponding value to move in one of 8 directions
+        switch (actions.DiscreteActions[0])
+        {
+            case 1:
+                moveX = 1;
+                break;
+            case 2:
+                moveX = -1;
+                break;
+            case 3:
+                moveZ = 1;
+                break;
+            case 4:
+                moveZ = -1;
+                break;
+            case 5:
+                moveX = 1;
+                moveZ = 1;
+                break;
+            case 6:
+                moveX = -1;
+                moveZ = -1;
+                break;
+            case 7:
+                moveX = -1;
+                moveZ = 1;
+                break;
+            case 8:
+                moveX = 1;
+                moveZ = -1;
+                break;
+        }
+        
+        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
+        
+        if(actions.DiscreteActions[1] == 1) 
             Shoot();    // Call shoot function
         
-        float moveX = actions.ContinuousActions[0];
-        float moveZ = actions.ContinuousActions[1];
-        
-        float moveSpeed = 2.5f;
-        // Move the agent in the direction given by continuous action
-        transform.localPosition += new Vector3(-moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
-        
-        float rot = actions.ContinuousActions[2];
+        float rot = actions.ContinuousActions[0];
         transform.Rotate(0f,rot,0f);
         
-        TrainingProgressText.ScreenText();
+        
     }
 
     public void EnemyDead()
