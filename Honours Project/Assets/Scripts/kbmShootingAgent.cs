@@ -93,6 +93,13 @@ public class kbmShootingAgent : Agent
             if (stepsUntilCanShoot <= 0)    // Check if counter is over
                 shootAvailable = true;
         }
+        
+        float angel = Vector3.Angle(transform.forward, enemyTransform.position - transform.position);
+        if (Mathf.Abs(angel) < 30f)
+        {
+            if(Vector3.Distance(transform.position, enemyTransform.position) < 5f)
+                transform.LookAt(enemyTransform);
+        }
     }
 
     public override void Initialize() // Used instead of Start()
