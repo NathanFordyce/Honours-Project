@@ -72,7 +72,7 @@ public class kbmShootingAgent : Agent
         {
             TrainingProgressText.Fail++;
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            AddReward(-0.2f);      // Punish agent
+            AddReward(-0.25f);      // Punish agent
         }
 
         // Set shoot cooldown variables
@@ -97,7 +97,7 @@ public class kbmShootingAgent : Agent
         float angel = Vector3.Angle(transform.forward, enemyTransform.position - transform.position);
         if (Mathf.Abs(angel) < 30f)
         {
-            if(Vector3.Distance(transform.position, enemyTransform.position) < 5f)
+            if(Vector3.Distance(transform.position, enemyTransform.position) < 6f)
                 transform.LookAt(enemyTransform);
         }
     }

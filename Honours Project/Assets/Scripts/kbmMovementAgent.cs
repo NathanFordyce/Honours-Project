@@ -13,6 +13,7 @@ public class kbmMovementAgent : Agent
     [SerializeField] private Material winMaterial;
     [SerializeField] private Material loseMaterial;
     [SerializeField] private MeshRenderer floorMeshRenderer;
+    [SerializeField] private MiscObjects obstacles;
 
     private Vector3 startPos;
     private void Start()
@@ -23,11 +24,17 @@ public class kbmMovementAgent : Agent
     public override void OnEpisodeBegin()
     {
         TrainingProgressText.Episode++;
+        obstacles.ResetForEpisode();
         // Give agent and target new starting positions at start of new episode
         // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, Random.Range(-9f, -5f));
-        transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, -7f);
+        // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, -7f);
         // targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
-        targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, 7f);
+        // targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, 7f);
+        
+        // Environment with walls spawn points
+        transform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, -15f);
+        targetTransform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, 15f);
+
         
         
         //transform.localPosition = startPos;
@@ -146,6 +153,12 @@ public class kbmMovementAgent : Agent
             SetReward(-1f); // Punish agent
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
             EndEpisode();   // End current episode
+        }
+
+        if (collision.gameObject.CompareTag("Checkpoint")) // If agent goes out of bounds
+        {
+            SetReward(0.2f); // Punish agent
+            collision.gameObject.SetActive(false);
         }
     }
 }
