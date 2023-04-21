@@ -1,0 +1,29 @@
+{
+    "MoveWithSensor": {
+        "checkpoints": [
+            {
+                "steps": 227475,
+                "file_path": "results\\RandGoalPositions\\MoveWithSensor\\MoveWithSensor-227475.onnx",
+                "reward": null,
+                "creation_time": 1676221659.2807534,
+                "auxillary_file_paths": [
+                    "results\\RandGoalPositions\\MoveWithSensor\\MoveWithSensor-227475.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 227475,
+            "file_path": "results\\RandGoalPositions\\MoveWithSensor.onnx",
+            "reward": null,
+            "creation_time": 1676221659.2807534,
+            "auxillary_file_paths": [
+                "results\\RandGoalPositions\\MoveWithSensor\\MoveWithSensor-227475.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

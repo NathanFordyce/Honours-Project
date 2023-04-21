@@ -34,7 +34,7 @@ public class Bullet : MonoBehaviour
         //     return;
         // }
         // gunREF.AddToList(collision.gameObject.tag);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     public void SetGunRef(Gun gun)

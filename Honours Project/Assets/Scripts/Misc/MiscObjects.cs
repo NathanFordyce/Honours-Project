@@ -7,6 +7,7 @@ public class MiscObjects : MonoBehaviour
 {
     [SerializeField] private Transform[] walls;
     [SerializeField] private GameObject[] checkpoints;
+    [SerializeField] private bool isMovement;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,14 +29,33 @@ public class MiscObjects : MonoBehaviour
 
     private void NewWallPos()
     {
-        walls[0].localPosition = new Vector3(5f, 1.7f, Random.Range(-10f, 10f));
-        walls[1].localPosition = new Vector3(-5f, 1.7f, Random.Range(-10f, 10f));
-
-        if (walls[0].localPosition.z >= walls[1].localPosition.z - 4f && walls[0].localPosition.z <= walls[1].localPosition.z + 4f)
+        if (isMovement)
         {
-            print("another new pos");
-            NewWallPos();
+            // Movement environment
+            walls[0].localPosition = new Vector3(5f, 1.7f, Random.Range(-10f, 10f));
+            walls[1].localPosition = new Vector3(-5f, 1.7f, Random.Range(-10f, 10f));
+            if (walls[0].localPosition.z >= walls[1].localPosition.z - 4f && walls[0].localPosition.z <= walls[1].localPosition.z + 4f)      // Movement
+            {
+                NewWallPos();
+            }
         }
+        else
+        {
+            // Shooting Environment
+            walls[0].localPosition = new Vector3(Random.Range(-10f, 10f), 1.7f, 5f);
+            walls[1].localPosition = new Vector3(Random.Range(-10f, 10f), 1.7f, -5f);
+            
+            if (walls[0].localPosition.x >= walls[1].localPosition.x - 4f && walls[0].localPosition.x <= walls[1].localPosition.x + 4f)         // Shooting
+            {
+                NewWallPos();
+            }
+        }
+
+        // if (walls[0].localPosition.z >= walls[1].localPosition.z - 4f && walls[0].localPosition.z <= walls[1].localPosition.z + 4f)      // Movement
+        // //if (walls[0].localPosition.x >= walls[1].localPosition.x - 4f && walls[0].localPosition.x <= walls[1].localPosition.x + 4f)         // Shooting
+        // {
+        //     NewWallPos();
+        // }
     }
     
     

@@ -8,6 +8,7 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEditor;
 using UnityEngine.Analytics;
+using Random = UnityEngine.Random;
 
 public class kbmShootingAgent : Agent
 {
@@ -24,6 +25,9 @@ public class kbmShootingAgent : Agent
     [SerializeField] private Material winMaterial;
     [SerializeField] private Material loseMaterial;
     [SerializeField] private MeshRenderer floorMeshRenderer;
+
+    [Header("Misc")] 
+    //[SerializeField] private MiscObjects miscObjects;
 
 
     private bool shootAvailable = true;
@@ -52,7 +56,7 @@ public class kbmShootingAgent : Agent
 
         Debug.DrawRay(shootPoint.position, direction * 10f, Color.blue, 2f);
 
-        if (Physics.Raycast(shootPoint.position, direction, out var hit, 15f, layerMask))
+        if (Physics.Raycast(shootPoint.position, direction, out var hit, 10f, layerMask))
         {
             if (hit.transform.CompareTag("Enemy"))
             {
@@ -64,15 +68,20 @@ public class kbmShootingAgent : Agent
             {
                 print("Hello");
                 TrainingProgressText.Fail++;
-                floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-                AddReward(-0.2f);      // Punish agent
+                //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
+                //AddReward(-0.5f);      // Punish agent
+                SetReward(-1f); // Punish agent
+                EndEpisode();   // End current episode
             }
         }
         else
         {
             TrainingProgressText.Fail++;
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            AddReward(-0.25f);      // Punish agent
+            // AddReward(-0.5f);      // Punish agent
+            
+            SetReward(-1f); // Punish agent
+            EndEpisode();   // End current episode
         }
 
         // Set shoot cooldown variables
@@ -94,8 +103,8 @@ public class kbmShootingAgent : Agent
                 shootAvailable = true;
         }
         
-        float angel = Vector3.Angle(transform.forward, enemyTransform.position - transform.position);
-        if (Mathf.Abs(angel) < 30f)
+        float angle = Vector3.Angle(transform.forward, enemyTransform.position - transform.position);
+        if (Mathf.Abs(angle) < 30f)
         {
             if(Vector3.Distance(transform.position, enemyTransform.position) < 6f)
                 transform.LookAt(enemyTransform);
@@ -112,13 +121,19 @@ public class kbmShootingAgent : Agent
     public override void OnEpisodeBegin()
     {
         TrainingProgressText.Episode++;
-        
-        
         Debug.Log("Episode Begin");
         
+        //miscObjects.ResetForEpisode();
+        
+        // Walls Enviro positions
+        // transform.localPosition = new Vector3(15f, 0f, Random.Range(-7f, 7f));
+        // enemyTransform.localPosition = new Vector3(-15f, 1.3f, Random.Range(-7f, 7f));
+
+        // No walls enviro positions
         transform.localPosition = startPos;     // Reset agent back to starting position
+        enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, Random.Range(-7f, 7f));
         transform.localRotation = startRot;
-        enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
+
         
         // Move enemy object to new position
         // if(!switchSide)
@@ -248,6 +263,12 @@ public class kbmShootingAgent : Agent
             TrainingProgressText.Fail++;
             SetReward(-1f); // Punish agent
             EndEpisode();   // End current episode
+        }
+        
+        if (collision.gameObject.CompareTag("Checkpoint")) // If agent goes out of bounds
+        {
+            SetReward(0.2f); // Punish agent
+            collision.gameObject.SetActive(false);
         }
     }
 }

@@ -447,7 +447,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9025166853653690342
 Transform:
   m_ObjectHideFlags: 0
@@ -456,7 +456,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6356136123060943734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -7}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3683268096836041106}
@@ -575,6 +575,7 @@ MonoBehaviour:
   winMaterial: {fileID: 2100000, guid: 5f7a353f4fb9ee54597a21b46fa17754, type: 2}
   loseMaterial: {fileID: 2100000, guid: 843ea906d332ded45a5a10205ea41850, type: 2}
   floorMeshRenderer: {fileID: 8435097071531535097}
+  obstacles: {fileID: 0}
 --- !u!114 &7726222075823939145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,7 +668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5097833797568912381
 Transform:
   m_ObjectHideFlags: 0
@@ -1056,7 +1057,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8435097071103210062}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.35, z: 7}
+  m_LocalPosition: {x: 3, y: 0.35, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 3683268096836041106}
@@ -1148,7 +1149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8435097071110673832
 Transform:
   m_ObjectHideFlags: 0
@@ -1247,7 +1248,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 98055e870dc55884b9cba6ff0b3712cd, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 7083075faa3aec649a095252025d74a6, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 2
   m_BehaviorName: MoveWithSensor
@@ -1276,6 +1277,7 @@ MonoBehaviour:
   winMaterial: {fileID: 2100000, guid: 5f7a353f4fb9ee54597a21b46fa17754, type: 2}
   loseMaterial: {fileID: 2100000, guid: 843ea906d332ded45a5a10205ea41850, type: 2}
   floorMeshRenderer: {fileID: 8435097071531535097}
+  obstacles: {fileID: 0}
 --- !u!114 &8435097071110673833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1331,7 +1333,7 @@ MonoBehaviour:
     m_Bits: 51
   m_ObservationStacks: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
-  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  rayMissColor: {r: 0, g: 1, b: 0.123636246, a: 1}
   m_StartVerticalOffset: 0.25
   m_EndVerticalOffset: 0.25
 --- !u!114 &3083267696218016650

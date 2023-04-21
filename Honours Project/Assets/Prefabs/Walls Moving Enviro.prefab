@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083930744674541797}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.9379163, y: 4.574112, z: 11.276872}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8435097071103210058}
@@ -134,6 +134,7 @@ MonoBehaviour:
   - {fileID: 5097833797568912381}
   - {fileID: 1777815219722549805}
   checkpoints: []
+  isMovement: 1
 --- !u!1 &4898934502451618045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1009,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8435097071110673838}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3683268096836041106}
@@ -1098,7 +1099,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 98055e870dc55884b9cba6ff0b3712cd, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 0bf578ec69fbead479b4044a448cd9e8, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 2
   m_BehaviorName: MoveWithSensor
@@ -1127,6 +1128,7 @@ MonoBehaviour:
   winMaterial: {fileID: 2100000, guid: 5f7a353f4fb9ee54597a21b46fa17754, type: 2}
   loseMaterial: {fileID: 2100000, guid: 843ea906d332ded45a5a10205ea41850, type: 2}
   floorMeshRenderer: {fileID: 8435097071531535097}
+  obstacles: {fileID: 6732880672411592051}
 --- !u!114 &8435097071110673833
 MonoBehaviour:
   m_ObjectHideFlags: 0
