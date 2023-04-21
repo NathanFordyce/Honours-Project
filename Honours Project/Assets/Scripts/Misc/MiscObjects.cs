@@ -22,6 +22,7 @@ public class MiscObjects : MonoBehaviour
         {
             if (!point.activeSelf)
             {
+                print("hello");
                 point.SetActive(true);
             }
         }

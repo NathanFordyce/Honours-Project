@@ -133,7 +133,9 @@ MonoBehaviour:
   walls:
   - {fileID: 5097833797568912381}
   - {fileID: 1777815219722549805}
-  checkpoints: []
+  checkpoints:
+  - {fileID: 4898934502451618045}
+  - {fileID: 3717813876765805047}
   isMovement: 1
 --- !u!1 &4898934502451618045
 GameObject:
@@ -203,7 +205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9025166853653690342
 Transform:
   m_ObjectHideFlags: 0
@@ -304,7 +306,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: c39ec88043236814cb7b6308a9212263, type: 3}
   m_InferenceDevice: 1
-  m_BehaviorType: 2
+  m_BehaviorType: 1
   m_BehaviorName: MoveWithSensor
   TeamId: 0
   m_UseChildSensors: 1
@@ -1000,7 +1002,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8435097071110673832
 Transform:
   m_ObjectHideFlags: 0
@@ -1099,7 +1101,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 0bf578ec69fbead479b4044a448cd9e8, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 0d3f4e20a43c8fe4e9c4826caa3757a4, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 2
   m_BehaviorName: MoveWithSensor

@@ -1,0 +1,29 @@
+{
+    "MoveWithSensor": {
+        "checkpoints": [
+            {
+                "steps": 100053,
+                "file_path": "results\\ConMovement1\\MoveWithSensor\\MoveWithSensor-100053.onnx",
+                "reward": null,
+                "creation_time": 1682085814.8883293,
+                "auxillary_file_paths": [
+                    "results\\ConMovement1\\MoveWithSensor\\MoveWithSensor-100053.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 100053,
+            "file_path": "results\\ConMovement1\\MoveWithSensor.onnx",
+            "reward": null,
+            "creation_time": 1682085814.8883293,
+            "auxillary_file_paths": [
+                "results\\ConMovement1\\MoveWithSensor\\MoveWithSensor-100053.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
