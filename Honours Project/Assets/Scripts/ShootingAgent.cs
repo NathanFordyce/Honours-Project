@@ -52,7 +52,7 @@ public class ShootingAgent : Agent
 
         Debug.DrawRay(shootPoint.position, direction * 10f, Color.blue, 2f);
 
-        if (Physics.Raycast(shootPoint.position, direction, out var hit, 15f, layerMask))
+        if (Physics.Raycast(shootPoint.position, direction, out var hit, 10f, layerMask))
         {
             if (hit.transform.CompareTag("Enemy"))
             {
@@ -64,15 +64,20 @@ public class ShootingAgent : Agent
             {
                 print("Hello");
                 TrainingProgressText.Fail++;
-                floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-                AddReward(-0.2f);      // Punish agent
+                //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
+                //AddReward(-0.5f);      // Punish agent
+                SetReward(-1f); // Punish agent
+                EndEpisode();   // End current episode
             }
         }
         else
         {
             TrainingProgressText.Fail++;
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            AddReward(-0.2f);      // Punish agent
+            // AddReward(-0.5f);      // Punish agent
+            
+            SetReward(-1f); // Punish agent
+            EndEpisode();   // End current episode
         }
 
         // Set shoot cooldown variables
@@ -112,8 +117,8 @@ public class ShootingAgent : Agent
         
         Debug.Log("Episode Begin");
         
-        //transform.localPosition = startPos;     // Reset agent back to starting position
-        //transform.localRotation = startRot;
+        transform.localPosition = startPos;     // Reset agent back to starting position
+        transform.localRotation = startRot;
         enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
         
         // Move enemy object to new position
@@ -139,7 +144,7 @@ public class ShootingAgent : Agent
     {
         // Give agent discrete action if E is pressed
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
-        discreteActions[0] = Input.GetKey(KeyCode.E) ? 1 : 0;
+        discreteActions[0] = Input.GetKey(KeyCode.R) ? 1 : 0;
         
         // Give agent continuous action if A/D is pressed
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
@@ -148,9 +153,9 @@ public class ShootingAgent : Agent
         // Give agent continuous action if A/D is pressed
         continuousActions[1] = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKey(KeyCode.O))
+        if (Input.GetKey(KeyCode.Q))
             continuousActions[2] = -1;
-        else if (Input.GetKey(KeyCode.P))
+        else if (Input.GetKey(KeyCode.E))
             continuousActions[2] = 1;
 
     }
