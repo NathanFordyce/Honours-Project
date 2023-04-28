@@ -52,8 +52,6 @@ public class kbmShootingAgent : Agent
         var layerMask = 1 << LayerMask.NameToLayer("Enemy");
         var direction = transform.forward;
         
-        Debug.Log("Shooting");
-
         Debug.DrawRay(shootPoint.position, direction * 10f, Color.blue, 2f);
 
         if (Physics.Raycast(shootPoint.position, direction, out var hit, 10f, layerMask))
@@ -66,7 +64,6 @@ public class kbmShootingAgent : Agent
             }
             else if (hit.collider.CompareTag("Wall"))   // If hit wall
             {
-                print("Hello");
                 TrainingProgressText.Fail++;
                 //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
                 //AddReward(-0.5f);      // Punish agent
@@ -131,8 +128,9 @@ public class kbmShootingAgent : Agent
 
         // No walls enviro positions
         transform.localPosition = startPos;     // Reset agent back to starting position
-        enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, Random.Range(-7f, 7f));
         transform.localRotation = startRot;
+
+        enemyTransform.localPosition = new Vector3(Random.Range(-9f, -6f), 1.3f, Random.Range(-10f, 10f));
 
         
         // Move enemy object to new position
@@ -168,23 +166,23 @@ public class kbmShootingAgent : Agent
         else if (Input.GetKey(KeyCode.E))
             continuousActions[0] = 1;
         
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))            // Forward Movement
             discreteActions[0] = 1;
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.S))       // Backward Movement
             discreteActions[0] = 2;
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))       // Right Movement
             discreteActions[0] = 3;
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A))       // Left Movement
             discreteActions[0] = 4;
-        else if (Input.GetKey(KeyCode.P))
+        else if (Input.GetKey(KeyCode.P))       // Backward to Right Diagonal Movement
             discreteActions[0] = 5;
-        else if (Input.GetKey(KeyCode.O))
+        else if (Input.GetKey(KeyCode.O))       // Forward to Left Diagonal Movement
             discreteActions[0] = 6;
-        else if (Input.GetKey(KeyCode.I))
+        else if (Input.GetKey(KeyCode.I))       // Forward to Right Diagonal Movement
             discreteActions[0] = 7;
-        else if (Input.GetKey(KeyCode.U))
+        else if (Input.GetKey(KeyCode.U))       // Backward to Left Diagonal Movement
             discreteActions[0] = 8;
-        else if (Input.GetKey(KeyCode.Space))
+        else if (Input.GetKey(KeyCode.Space))   // No movement
             discreteActions[0] = 0;
 
     }
