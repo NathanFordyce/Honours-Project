@@ -59,19 +59,19 @@ public class kbmShootingAgent : Agent
             {
                 TrainingProgressText.Fail++;
                 //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-                //AddReward(-0.5f);      // Punish agent
-                SetReward(-1f); // Punish agent
-                EndEpisode();   // End current episode
+                AddReward(-0.2f);      // Punish agent
+                // SetReward(-1f); // Punish agent
+                // EndEpisode();   // End current episode
             }
         }
         else
         {
             TrainingProgressText.Fail++;
-            floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            // AddReward(-0.5f);      // Punish agent
+            //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
+            AddReward(-0.2f);      // Punish agent
             
-            SetReward(-1f); // Punish agent
-            EndEpisode();   // End current episode
+            // SetReward(-1f); // Punish agent
+            // EndEpisode();   // End current episode
         }
 
         // Set shoot cooldown variables
@@ -82,8 +82,8 @@ public class kbmShootingAgent : Agent
     private void FixedUpdate()
     {
         TrainingProgressText.Reward = GetCumulativeReward();
-        
-        SetReward(-(1 / MaxStep));
+
+        AddReward(-(1 / MaxStep));
 
         if (!shootAvailable)    // If shoot not available
         {
@@ -117,7 +117,7 @@ public class kbmShootingAgent : Agent
         transform.localRotation = startRot;
 
         // Set goal to new random position
-        //enemyTransform.localPosition = new Vector3(Random.Range(6f, 9f), 1.3f, Random.Range(-10f, 10f));
+        enemyTransform.localPosition = new Vector3(Random.Range(6f, 9f), 1.3f, Random.Range(-10f, 10f));
         
         // Move enemy object to new position
         // if(!switchSide)
@@ -125,7 +125,6 @@ public class kbmShootingAgent : Agent
         // else
         //     enemyTransform.localPosition = new Vector3(4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
 
-        //rb.velocity = Vector3.zero; // Stop agent from moving
         shootAvailable = true;      // Reset shoot check
     }
     
@@ -214,13 +213,13 @@ public class kbmShootingAgent : Agent
                 break;
         }
         
-        //transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
+        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
         
         if(actions.DiscreteActions[1] == 1) 
             Shoot();    // Call shoot function
         
         float rot = actions.ContinuousActions[0];
-        //transform.Rotate(0f,rot,0f);
+        transform.Rotate(0f,rot,0f);
         
         
     }

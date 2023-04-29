@@ -88,6 +88,8 @@ public class ShootingAgent : Agent
     private void FixedUpdate()
     {
         TrainingProgressText.Reward = GetCumulativeReward();
+        
+        SetReward(-(1 / MaxStep));
 
         if (!shootAvailable)    // If shoot not available
         {
