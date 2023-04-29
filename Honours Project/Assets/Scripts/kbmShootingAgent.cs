@@ -117,7 +117,7 @@ public class kbmShootingAgent : Agent
         transform.localRotation = startRot;
 
         // Set goal to new random position
-        enemyTransform.localPosition = new Vector3(Random.Range(6f, 9f), 1.3f, Random.Range(-10f, 10f));
+        //enemyTransform.localPosition = new Vector3(Random.Range(6f, 9f), 1.3f, Random.Range(-10f, 10f));
         
         // Move enemy object to new position
         // if(!switchSide)
@@ -214,13 +214,13 @@ public class kbmShootingAgent : Agent
                 break;
         }
         
-        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
+        //transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
         
         if(actions.DiscreteActions[1] == 1) 
             Shoot();    // Call shoot function
         
         float rot = actions.ContinuousActions[0];
-        transform.Rotate(0f,rot,0f);
+        //transform.Rotate(0f,rot,0f);
         
         
     }
