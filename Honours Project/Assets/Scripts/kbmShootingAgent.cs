@@ -26,18 +26,11 @@ public class kbmShootingAgent : Agent
     [SerializeField] private Material loseMaterial;
     [SerializeField] private MeshRenderer floorMeshRenderer;
 
-    [Header("Misc")] 
-    //[SerializeField] private MiscObjects miscObjects;
-
-
     private bool shootAvailable = true;
     private int stepsUntilCanShoot = 0;
 
     private Vector3 startPos;
     private Quaternion startRot;
-    private Rigidbody rb;
-
-    private bool switchSide = false;
     
     private void Shoot()
     {
@@ -112,26 +105,19 @@ public class kbmShootingAgent : Agent
     {
         startPos = transform.localPosition; // Get players starting position
         startRot = transform.localRotation; // Get players starting rotation
-        rb = GetComponent<Rigidbody>();     // Get agents rigid body component
     }
 
     public override void OnEpisodeBegin()
     {
         TrainingProgressText.Episode++;
         Debug.Log("Episode Begin");
-        
-        //miscObjects.ResetForEpisode();
-        
-        // Walls Enviro positions
-        // transform.localPosition = new Vector3(15f, 0f, Random.Range(-7f, 7f));
-        // enemyTransform.localPosition = new Vector3(-15f, 1.3f, Random.Range(-7f, 7f));
 
-        // No walls enviro positions
+        // Set agents start location and rotation
         transform.localPosition = startPos;     // Reset agent back to starting position
         transform.localRotation = startRot;
 
-        enemyTransform.localPosition = new Vector3(Random.Range(-9f, -6f), 1.3f, Random.Range(-10f, 10f));
-
+        // Set goal to new random position
+        enemyTransform.localPosition = new Vector3(Random.Range(6f, 9f), 1.3f, Random.Range(-10f, 10f));
         
         // Move enemy object to new position
         // if(!switchSide)
@@ -141,7 +127,6 @@ public class kbmShootingAgent : Agent
 
         //rb.velocity = Vector3.zero; // Stop agent from moving
         shootAvailable = true;      // Reset shoot check
-        switchSide = !switchSide;
     }
     
     
@@ -149,7 +134,6 @@ public class kbmShootingAgent : Agent
     {
         // Observe the agents location and enemy location
         sensor.AddObservation(transform.localPosition);
-        // sensor.AddObservation(enemyTransform.localPosition);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -170,17 +154,17 @@ public class kbmShootingAgent : Agent
             discreteActions[0] = 1;
         else if (Input.GetKey(KeyCode.S))       // Backward Movement
             discreteActions[0] = 2;
-        else if (Input.GetKey(KeyCode.D))       // Right Movement
-            discreteActions[0] = 3;
         else if (Input.GetKey(KeyCode.A))       // Left Movement
+            discreteActions[0] = 3;
+        else if (Input.GetKey(KeyCode.D))       // Right Movement
             discreteActions[0] = 4;
-        else if (Input.GetKey(KeyCode.P))       // Backward to Right Diagonal Movement
+        else if (Input.GetKey(KeyCode.U))       // Forward to Left Diagonal Movement
             discreteActions[0] = 5;
-        else if (Input.GetKey(KeyCode.O))       // Forward to Left Diagonal Movement
+        else if (Input.GetKey(KeyCode.O))       // Backward to Right Diagonal Movement
             discreteActions[0] = 6;
-        else if (Input.GetKey(KeyCode.I))       // Forward to Right Diagonal Movement
+        else if (Input.GetKey(KeyCode.P))       // Backward to Left Diagonal Movement
             discreteActions[0] = 7;
-        else if (Input.GetKey(KeyCode.U))       // Backward to Left Diagonal Movement
+        else if (Input.GetKey(KeyCode.I))       // Backward to Left Diagonal Movement
             discreteActions[0] = 8;
         else if (Input.GetKey(KeyCode.Space))   // No movement
             discreteActions[0] = 0;
