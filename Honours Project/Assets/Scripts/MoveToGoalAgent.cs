@@ -17,6 +17,9 @@ public class MoveToGoalAgent : Agent
     [SerializeField] private MiscObjects obstacles;
 
     private Vector3 startPos;
+    
+    [Header("Which Environment")]
+    [SerializeField] private bool isWalls;
     private void Start()
     {
         startPos = transform.localPosition;
@@ -25,31 +28,34 @@ public class MoveToGoalAgent : Agent
     public override void OnEpisodeBegin()
     {
         TrainingProgressText.Episode++;
-        obstacles.ResetForEpisode();
         
-        // Give agent and target new starting positions at start of new episode
-        // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, Random.Range(-9f, -5f));
-        //targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+        if (isWalls)    // If wall environment is being used
+        {
+            obstacles.ResetForEpisode();
+            transform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, -15f);
+            targetTransform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, 15f);
+        }
+        else
+        {
+            // Give agent and target new starting positions at start of new episode
+            // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, Random.Range(-9f, -5f));
+            //targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
 
-        // Environment with walls spawn points
-        transform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, -15f);
-        targetTransform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, 15f);
+            // Give agent and target new starting position
+            transform.localPosition = startPos;
+            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
 
-
-
-        
-        // transform.localPosition = startPos;
-
-        // int temp = Random.Range(0, 3);
-        //
-        // if(temp == 0)
-        //     targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
-        // else if(temp == 1) 
-        //     targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);
-        // else if (temp == 2)
-        //     targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
-        // else if (temp == 3)
-        //     targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
+            // int temp = Random.Range(0, 3);
+            
+            // if(temp == 0)
+            //     targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
+            // else if(temp == 1) 
+            //     targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);
+            // else if (temp == 2)
+            //     targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
+            // else if (temp == 3)
+            //     targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
+        }
         
     }
     
@@ -72,7 +78,9 @@ public class MoveToGoalAgent : Agent
         float moveZ = actions.ContinuousActions[1];
 
         float moveSpeed = 2.5f; // Agents speed
-        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
+        
+        // Move agent using actions received
+        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

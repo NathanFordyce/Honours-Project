@@ -11,10 +11,6 @@ public class AgentMovement : MonoBehaviour
     [Header("Drag")]
     [SerializeField] private float groundDrag;
 
-    [Header("Gun")]
-    [SerializeField] private Gun weapon;
-
-
     float horizontalInput;
     float verticalInput;
 

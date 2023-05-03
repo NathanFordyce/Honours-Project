@@ -1,42 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class Enemy : MonoBehaviour
 {
-
     private int startHealth = 100;
     private int health;
-
     private void Start()
     {
-        health = startHealth;
+        health = startHealth;           // Set enemies initial health
     }
 
-    public int GetHit(int damage)
+    public int GetHit(int damage)       // Reduce enemies health by parameter passed in and return new total health
     {
         health -= damage;
         return health;
     }
     
-    
-    private void Respawn()
-    {
-        health = startHealth;
-    }
-
-
     private void Update()
     {
+        // If enemy is killed reset its health
         if (health <= 0)
         {
-            Respawn();
+            health = startHealth;
         }
-    }
-
-    public int GetHealth()
-    {
-        return health;
     }
 }

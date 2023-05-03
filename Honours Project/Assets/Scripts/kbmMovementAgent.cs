@@ -15,6 +15,11 @@ public class kbmMovementAgent : Agent
     [SerializeField] private MeshRenderer floorMeshRenderer;
     [SerializeField] private MiscObjects obstacles;
 
+    [Header("Which Environment")]
+    [SerializeField] private bool isWalls;
+
+    
+    
     private Vector3 startPos;
     private void Start()
     {
@@ -24,32 +29,35 @@ public class kbmMovementAgent : Agent
     public override void OnEpisodeBegin()
     {
         TrainingProgressText.Episode++;
-        obstacles.ResetForEpisode();
-        // Give agent and target new starting positions at start of new episode
-        // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, Random.Range(-9f, -5f));
-        // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, -7f);
-        // targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
-        // targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, 7f);
-        
-        // Environment with walls spawn points
-        transform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, -15f);
-        targetTransform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, 15f);
 
-        
-        
-        //transform.localPosition = startPos;
+        if (isWalls)
+        {
+            obstacles.ResetForEpisode();
+            // Environment with walls spawn points
+            transform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, -15f);
+            targetTransform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, 15f);
+        }
+        else
+        { 
+            // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, Random.Range(-9f, -5f));
+            // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, -7f);
+            // targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, 7f);
 
-        // int temp = Random.Range(0, 3);
-        //
-        // if(temp == 0)
-        //     targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
-        // else if(temp == 1) 
-        //     targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);
-        // else if (temp == 2)
-        //     targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
-        // else if (temp == 3)
-        //     targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
-        
+            // Give agent and target new starting position
+            transform.localPosition = startPos;
+            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+
+             // int temp = Random.Range(0, 3);
+            
+             // if(temp == 0)
+             //     targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
+             // else if(temp == 1) 
+             //     targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);
+             // else if (temp == 2)
+             //     targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
+             // else if (temp == 3)
+             //     targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
+        }
     }
 
     private void FixedUpdate()
@@ -76,38 +84,38 @@ public class kbmMovementAgent : Agent
         // Use corresponding value to move in one of 8 directions
         switch (actions.DiscreteActions[0])
         {
-            case 1:
+            case 1:             // Move agent right
                 moveX = 1;
                 break;
-            case 2:
+            case 2:             // Move agent left
                 moveX = -1;
                 break;
-            case 3:
+            case 3:             // Move agent forward
                 moveZ = 1;
                 break;
-            case 4:
+            case 4:             // Move agent back
                 moveZ = -1;
                 break;
-            case 5:
+            case 5:             // Move agent forward and to right
                 moveX = 1;
                 moveZ = 1;
                 break;
-            case 6:
+            case 6:             // Move agent back and to left
                 moveX = -1;
                 moveZ = -1;
                 break;
-            case 7:
+            case 7:             // Move agent forward and to left
                 moveX = -1;
                 moveZ = 1;
                 break;
-            case 8:
+            case 8:             // Move agent back and to right
                 moveX = 1;
                 moveZ = -1;
                 break;
         }
         
-
-        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
+        // Move agent using actions received
+        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -141,24 +149,25 @@ public class kbmMovementAgent : Agent
         if (collision.gameObject.CompareTag("Goal")) // If agent reaches the goal
         {
             TrainingProgressText.Success++;
-            SetReward(1f);  // Reward agent
+            
             floorMeshRenderer.material = winMaterial;   // Set floor to pink to show it was successful
+            SetReward(1f);  // Reward agent
             EndEpisode();   // End current episode
         }
+        
         if (collision.gameObject.CompareTag("Wall")) // If agent goes out of bounds
         {
             TrainingProgressText.Fail++;
             
-            transform.localPosition = startPos;
-            SetReward(-1f); // Punish agent
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
+            SetReward(-1f); // Punish agent
             EndEpisode();   // End current episode
         }
 
         if (collision.gameObject.CompareTag("Checkpoint")) // If agent goes out of bounds
         {
             SetReward(0.2f); // Punish agent
-            collision.gameObject.SetActive(false);
+            collision.gameObject.SetActive(false);          // Set checkpoint to inactive
         }
     }
 }

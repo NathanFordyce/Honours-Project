@@ -43,16 +43,7 @@ public class Gun : MonoBehaviour
         {
             ammo--;
             var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-
-
             bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
-
-            Bullet bulletScript = bullet.GetComponent<Bullet>();
-
-            bulletScript.SetGunRef(this);
-
-
-            //bulletList.Add(bullet.GetComponent<Bullet>());
         }
     }
 
