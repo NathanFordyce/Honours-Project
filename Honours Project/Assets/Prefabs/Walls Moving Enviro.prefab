@@ -136,7 +136,6 @@ MonoBehaviour:
   checkpoints:
   - {fileID: 4898934502451618045}
   - {fileID: 3717813876765805047}
-  isMovement: 1
 --- !u!1 &4898934502451618045
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,6 +333,7 @@ MonoBehaviour:
   loseMaterial: {fileID: 2100000, guid: 843ea906d332ded45a5a10205ea41850, type: 2}
   floorMeshRenderer: {fileID: 8435097071531535097}
   obstacles: {fileID: 6732880672411592051}
+  isWalls: 1
 --- !u!114 &7726222075823939145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1131,6 +1131,7 @@ MonoBehaviour:
   loseMaterial: {fileID: 2100000, guid: 843ea906d332ded45a5a10205ea41850, type: 2}
   floorMeshRenderer: {fileID: 8435097071531535097}
   obstacles: {fileID: 6732880672411592051}
+  isWalls: 1
 --- !u!114 &8435097071110673833
 MonoBehaviour:
   m_ObjectHideFlags: 0

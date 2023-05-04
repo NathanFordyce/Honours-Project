@@ -113,6 +113,7 @@ public class kbmShootingAgent : Agent
         Debug.Log("Episode Begin");
 
         // Set agents start location and rotation
+        //transform.localPosition = new Vector3(Random.Range(-9f, -6f), 1.3f, Random.Range(-10f, 10f));     // Reset agent back to starting position
         transform.localPosition = startPos;     // Reset agent back to starting position
         transform.localRotation = startRot;
 
