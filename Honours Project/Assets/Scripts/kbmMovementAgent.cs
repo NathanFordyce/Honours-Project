@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
@@ -43,34 +44,31 @@ public class kbmMovementAgent : Agent
 
             // Give agent and target new starting position
             transform.localPosition = startPos;
-            // GoalRandPos();
+            GoalRandPos();
             
-            // Goal locations for initial brain
-            int temp = Random.Range(0, 3);
-            if(temp == 0)
-             targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
+            /*// Goal locations for initial brain
+            int temp = Random.Range(0, 4);
+
+            if(temp == 0) 
+                targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
             else if(temp == 1) 
-             targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);
-            else if (temp == 2)
-             targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
-            else if (temp == 3)
-             targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
+                targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);
+            else if (temp == 2) 
+                targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
+            else if (temp == 3) 
+                targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);*/
         }
     }
 
     private void FixedUpdate()
     {
-        //AddReward(-(1 / MaxStep));
-        print(GetCumulativeReward());
-
+        AddReward(-(1 / MaxStep));
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // Observe the agents location and target location
-        // sensor.AddObservation(transform.localPosition);
-        // sensor.AddObservation(targetTransform.localPosition);
-
+        sensor.AddObservation(transform.localPosition);
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -169,7 +167,7 @@ public class kbmMovementAgent : Agent
             TrainingProgressText.Fail++;
             
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            AddReward(-1f); // Punish agent
+            SetReward(-1f); // Punish agent
             EndEpisode();   // End current episode
         }
 
@@ -182,7 +180,7 @@ public class kbmMovementAgent : Agent
 
     private void GoalRandPos()
     {
-        targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+        targetTransform.localPosition = new Vector3(Random.Range(-6f, 6f), 0f, Random.Range(-6f, 6f));
         
         if((targetTransform.localPosition.x < 2.25f && targetTransform.localPosition.x > -2.25f ) || (targetTransform.localPosition.z < 2.25f && targetTransform.localPosition.z > -2.25f )  )
             GoalRandPos();

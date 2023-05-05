@@ -1,0 +1,29 @@
+{
+    "Movement": {
+        "checkpoints": [
+            {
+                "steps": 50030,
+                "file_path": "results\\KbmMovement-Start\\Movement\\Movement-50030.onnx",
+                "reward": 1.0,
+                "creation_time": 1683279668.370028,
+                "auxillary_file_paths": [
+                    "results\\KbmMovement-Start\\Movement\\Movement-50030.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 50030,
+            "file_path": "results\\KbmMovement-Start\\Movement.onnx",
+            "reward": 1.0,
+            "creation_time": 1683279668.370028,
+            "auxillary_file_paths": [
+                "results\\KbmMovement-Start\\Movement\\Movement-50030.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

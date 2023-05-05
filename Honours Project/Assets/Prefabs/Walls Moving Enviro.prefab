@@ -204,7 +204,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9025166853653690342
 Transform:
   m_ObjectHideFlags: 0
@@ -294,8 +294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 0
-    NumStackedVectorObservations: 1
+    VectorObservationSize: 3
+    NumStackedVectorObservations: 2
     m_ActionSpec:
       m_NumContinuousActions: 0
       BranchSizes: 09000000
@@ -303,10 +303,10 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: c39ec88043236814cb7b6308a9212263, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: c017a95d2aeb56048bfca2a6878d6b33, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 1
-  m_BehaviorName: MoveWithSensor
+  m_BehaviorName: Movement
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
@@ -1002,7 +1002,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8435097071110673832
 Transform:
   m_ObjectHideFlags: 0
@@ -1092,8 +1092,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 0
-    NumStackedVectorObservations: 1
+    VectorObservationSize: 3
+    NumStackedVectorObservations: 2
     m_ActionSpec:
       m_NumContinuousActions: 2
       BranchSizes: 
