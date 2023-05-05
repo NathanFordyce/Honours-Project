@@ -49,7 +49,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3764705967144087569}
   - component: {fileID: 1018934492603572423}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Checkpoint (1)
   m_TagString: Checkpoint
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2198802581607361346}
   - component: {fileID: 5982873137587426999}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Checkpoint
   m_TagString: Checkpoint
   m_Icon: {fileID: 0}
@@ -1101,10 +1101,10 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 0d3f4e20a43c8fe4e9c4826caa3757a4, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 1
-  m_BehaviorType: 2
-  m_BehaviorName: MoveWithSensor
+  m_BehaviorType: 0
+  m_BehaviorName: Movement
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1

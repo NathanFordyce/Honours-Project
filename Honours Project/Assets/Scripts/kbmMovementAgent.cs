@@ -18,8 +18,6 @@ public class kbmMovementAgent : Agent
     [Header("Which Environment")]
     [SerializeField] private bool isWalls;
 
-    
-    
     private Vector3 startPos;
     private void Start()
     {
@@ -45,24 +43,26 @@ public class kbmMovementAgent : Agent
 
             // Give agent and target new starting position
             transform.localPosition = startPos;
-            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
-
-             // int temp = Random.Range(0, 3);
+            // GoalRandPos();
             
-             // if(temp == 0)
-             //     targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
-             // else if(temp == 1) 
-             //     targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);
-             // else if (temp == 2)
-             //     targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
-             // else if (temp == 3)
-             //     targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
+            // Goal locations for initial brain
+            int temp = Random.Range(0, 3);
+            if(temp == 0)
+             targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
+            else if(temp == 1) 
+             targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);
+            else if (temp == 2)
+             targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
+            else if (temp == 3)
+             targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
         }
     }
 
     private void FixedUpdate()
     {
-        SetReward(-(1 / MaxStep));
+        //AddReward(-(1 / MaxStep));
+        print(GetCumulativeReward());
+
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -84,38 +84,47 @@ public class kbmMovementAgent : Agent
         // Use corresponding value to move in one of 8 directions
         switch (actions.DiscreteActions[0])
         {
-            case 1:             // Move agent right
+            case 1:             // Move agent forward
                 moveX = 1;
+                transform.localPosition += new Vector3(moveX, 0, 0) * Time.deltaTime * moveSpeed;
                 break;
-            case 2:             // Move agent left
+            case 2:             // Move agent back
                 moveX = -1;
+                transform.localPosition += new Vector3(moveX, 0, 0) * Time.deltaTime * moveSpeed;
+
                 break;
-            case 3:             // Move agent forward
+            case 3:             // Move agent right
                 moveZ = 1;
+                transform.localPosition += new Vector3(0, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 4:             // Move agent back
+            case 4:             // Move agent left
                 moveZ = -1;
+                transform.localPosition += new Vector3(0, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 5:             // Move agent forward and to right
+            case 5:             // Move agent forward and to left
                 moveX = 1;
                 moveZ = 1;
+                transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 6:             // Move agent back and to left
+            case 6:             // Move agent back and to right
                 moveX = -1;
                 moveZ = -1;
+                transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
             case 7:             // Move agent forward and to left
                 moveX = -1;
                 moveZ = 1;
+                transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
             case 8:             // Move agent back and to right
                 moveX = 1;
                 moveZ = -1;
+                transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
         }
         
         // Move agent using actions received
-        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
+        //transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -126,9 +135,9 @@ public class kbmMovementAgent : Agent
             discreteActions[0] = 1;
         else if (Input.GetKey(KeyCode.S))
             discreteActions[0] = 2;
-        else if (Input.GetKey(KeyCode.D))
-            discreteActions[0] = 3;
         else if (Input.GetKey(KeyCode.A))
+            discreteActions[0] = 3;
+        else if (Input.GetKey(KeyCode.D))
             discreteActions[0] = 4;
         else if (Input.GetKey(KeyCode.P))
             discreteActions[0] = 5;
@@ -151,7 +160,7 @@ public class kbmMovementAgent : Agent
             TrainingProgressText.Success++;
             
             floorMeshRenderer.material = winMaterial;   // Set floor to pink to show it was successful
-            SetReward(1f);  // Reward agent
+            AddReward(1f);  // Reward agent
             EndEpisode();   // End current episode
         }
         
@@ -160,14 +169,22 @@ public class kbmMovementAgent : Agent
             TrainingProgressText.Fail++;
             
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            SetReward(-1f); // Punish agent
+            AddReward(-1f); // Punish agent
             EndEpisode();   // End current episode
         }
 
         if (collision.gameObject.CompareTag("Checkpoint")) // If agent goes out of bounds
         {
-            SetReward(0.2f); // Punish agent
+            AddReward(0.2f); // Punish agent
             collision.gameObject.SetActive(false);          // Set checkpoint to inactive
         }
+    }
+
+    private void GoalRandPos()
+    {
+        targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+        
+        if((targetTransform.localPosition.x < 2.25f && targetTransform.localPosition.x > -2.25f ) || (targetTransform.localPosition.z < 2.25f && targetTransform.localPosition.z > -2.25f )  )
+            GoalRandPos();
     }
 }
