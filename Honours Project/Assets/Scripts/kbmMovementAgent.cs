@@ -33,8 +33,8 @@ public class kbmMovementAgent : Agent
         {
             obstacles.ResetForEpisode();
             // Environment with walls spawn points
-            transform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, -15f);
-            targetTransform.localPosition = new Vector3(Random.Range(-7f, 7f), 0f, 15f);
+            transform.localPosition = new Vector3(-15f, 0f, Random.Range(-7f, 7f));
+            targetTransform.localPosition = new Vector3(15f, 0f, Random.Range(-7f, 7f));
         }
         else
         { 
@@ -167,7 +167,8 @@ public class kbmMovementAgent : Agent
             TrainingProgressText.Fail++;
             
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            SetReward(-1f); // Punish agent
+            AddReward(-1f); // Punish agent
+            // SetReward(-1f); // Punish agent (Used for the initial environment without checkpoints
             EndEpisode();   // End current episode
         }
 

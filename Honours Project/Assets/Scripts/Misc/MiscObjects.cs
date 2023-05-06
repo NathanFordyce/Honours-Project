@@ -32,11 +32,11 @@ public class MiscObjects : MonoBehaviour
     private void NewWallPos()
     {
         // Sets both walls to random Z values between -10 and 10
-        walls[0].localPosition = new Vector3(5f, 1.7f, Random.Range(-10f, 10f));
-        walls[1].localPosition = new Vector3(-5f, 1.7f, Random.Range(-10f, 10f));
+        walls[0].localPosition = new Vector3(Random.Range(-10f, 10f), 1.7f, 5f);
+        walls[1].localPosition = new Vector3(Random.Range(-10f, 10f), 1.7f, -5f);
         
         // Checks if walls are too close to one another and recalls this function if they are
-        if (walls[0].localPosition.z >= walls[1].localPosition.z - 4f && walls[0].localPosition.z <= walls[1].localPosition.z + 4f)
+        if (walls[0].localPosition.x >= walls[1].localPosition.x - 4f && walls[0].localPosition.x <= walls[1].localPosition.x + 4f)
             NewWallPos();
     }
     
