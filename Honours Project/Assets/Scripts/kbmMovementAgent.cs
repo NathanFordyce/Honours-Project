@@ -62,13 +62,13 @@ public class kbmMovementAgent : Agent
 
     private void FixedUpdate()
     {
-        AddReward(-(1 / MaxStep));
+        SetReward(-(1 / MaxStep));
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // Observe the agents location and target location
-        sensor.AddObservation(transform.localPosition);
+        // sensor.AddObservation(transform.localPosition);
     }
     public override void OnActionReceived(ActionBuffers actions)
     {

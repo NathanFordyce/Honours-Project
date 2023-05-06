@@ -43,7 +43,9 @@ public class conMovementAgent : Agent
 
             // Give agent and target new starting position
             transform.localPosition = startPos;
-            GoalRandPos();
+            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+
+            // GoalRandPos();
 
             /*int temp = Random.Range(0, 4);
             if(temp == 0)
@@ -59,9 +61,10 @@ public class conMovementAgent : Agent
     }
     
     private void FixedUpdate()
-    {
-        AddReward(-(1 / MaxStep));
+    { 
+        // AddReward(-(1 / MaxStep));
     }
+    
     public override void CollectObservations(VectorSensor sensor)
     {
         // Observe the agents location and target location
@@ -95,7 +98,8 @@ public class conMovementAgent : Agent
             TrainingProgressText.Success++;
             
             floorMeshRenderer.material = winMaterial;   // Set floor to pink to show it was successful
-            AddReward(1.25f);  // Reward agent
+            AddReward(1f);  // Reward agent
+            // SetReward(1f);  // Reward agent
             EndEpisode();   // End current episode
         }
         
@@ -104,7 +108,7 @@ public class conMovementAgent : Agent
             TrainingProgressText.Fail++;
             
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            SetReward(-1f); // Punish agent
+            AddReward(-1f); // Punish agent
             // SetReward(-1f); // Punish agent (Used for the initial environment without checkpoints
             EndEpisode();   // End current episode
         }
@@ -118,7 +122,7 @@ public class conMovementAgent : Agent
     
     private void GoalRandPos()
     {
-        targetTransform.localPosition = new Vector3(Random.Range(-6f, 6f), 0f, Random.Range(-6f, 6f));
+        targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
         
         if((targetTransform.localPosition.x < 2.25f && targetTransform.localPosition.x > -2.25f ) || (targetTransform.localPosition.z < 2.25f && targetTransform.localPosition.z > -2.25f )  )
             GoalRandPos();
