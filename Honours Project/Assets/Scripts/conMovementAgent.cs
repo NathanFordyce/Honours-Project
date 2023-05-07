@@ -62,7 +62,7 @@ public class conMovementAgent : Agent
     
     private void FixedUpdate()
     { 
-        // AddReward(-(1 / MaxStep));
+        AddReward(-(1 / MaxStep));
     }
     
     public override void CollectObservations(VectorSensor sensor)

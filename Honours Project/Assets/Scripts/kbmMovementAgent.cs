@@ -44,10 +44,12 @@ public class kbmMovementAgent : Agent
 
             // Give agent and target new starting position
             transform.localPosition = startPos;
-            GoalRandPos();
+            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+
+            // GoalRandPos();
             
-            /*// Goal locations for initial brain
-            int temp = Random.Range(0, 4);
+            // Goal locations for initial brain
+            /*int temp = Random.Range(0, 4);
 
             if(temp == 0) 
                 targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
@@ -62,7 +64,7 @@ public class kbmMovementAgent : Agent
 
     private void FixedUpdate()
     {
-        SetReward(-(1 / MaxStep));
+        // AddReward(-(1 / MaxStep));
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -181,7 +183,7 @@ public class kbmMovementAgent : Agent
 
     private void GoalRandPos()
     {
-        targetTransform.localPosition = new Vector3(Random.Range(-6f, 6f), 0f, Random.Range(-6f, 6f));
+        targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
         
         if((targetTransform.localPosition.x < 2.25f && targetTransform.localPosition.x > -2.25f ) || (targetTransform.localPosition.z < 2.25f && targetTransform.localPosition.z > -2.25f )  )
             GoalRandPos();
