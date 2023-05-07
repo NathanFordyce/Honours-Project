@@ -36,7 +36,7 @@ public class MiscObjects : MonoBehaviour
         walls[1].localPosition = new Vector3(Random.Range(-10f, 10f), 1.7f, -5f);
         
         // Checks if walls are too close to one another and recalls this function if they are
-        if (walls[0].localPosition.x >= walls[1].localPosition.x - 4f && walls[0].localPosition.x <= walls[1].localPosition.x + 4f)
+        if (walls[0].localPosition.x >= walls[1].localPosition.x - 5f && walls[0].localPosition.x <= walls[1].localPosition.x + 5f)
             NewWallPos();
     }
     
