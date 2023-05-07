@@ -83,7 +83,7 @@ public class kbmShootingAgent : Agent
     {
         TrainingProgressText.Reward = GetCumulativeReward();
 
-        AddReward(-(1 / MaxStep));
+        AddReward(-(1f / MaxStep));
 
         if (!shootAvailable)    // If shoot not available
         {
@@ -96,7 +96,7 @@ public class kbmShootingAgent : Agent
         float angle = Vector3.Angle(transform.forward, enemyTransform.position - transform.position);
         if (Mathf.Abs(angle) < 30f)
         {
-            if(Vector3.Distance(transform.position, enemyTransform.position) < 6f)
+            if(Vector3.Distance(transform.position, enemyTransform.position) < 8f)
                 transform.LookAt(enemyTransform);
         }
     }
@@ -113,12 +113,14 @@ public class kbmShootingAgent : Agent
         Debug.Log("Episode Begin");
 
         // Set agents start location and rotation
-        //transform.localPosition = new Vector3(Random.Range(-9f, -6f), 1.3f, Random.Range(-10f, 10f));     // Reset agent back to starting position
         transform.localPosition = startPos;     // Reset agent back to starting position
+        // transform.localPosition = new Vector3(-8f, 1.3f, Random.Range(-10f, 10f));     // Reset agent back to starting position
+
         transform.localRotation = startRot;
 
         // Set goal to new random position
-        enemyTransform.localPosition = new Vector3(Random.Range(6f, 9f), 1.3f, Random.Range(-10f, 10f));
+        enemyTransform.localPosition = new Vector3(6f, 1.3f, Random.Range(-8f, 8f));
+        // enemyTransform.localPosition = new Vector3(Random.Range(6f, 9f), 1.3f, Random.Range(-10f, 10f));
         
         // Move enemy object to new position
         // if(!switchSide)
@@ -184,37 +186,46 @@ public class kbmShootingAgent : Agent
         // Use corresponding value to move in one of 8 directions
         switch (actions.DiscreteActions[0])
         {
-            case 1:
+            case 1:             // Move agent forward
                 moveX = 1;
+                transform.localPosition += new Vector3(moveX, 0, 0) * Time.deltaTime * moveSpeed;
                 break;
-            case 2:
+            case 2:             // Move agent back
                 moveX = -1;
+                transform.localPosition += new Vector3(moveX, 0, 0) * Time.deltaTime * moveSpeed;
+
                 break;
-            case 3:
-                moveZ = 1;
+            case 3:             // Move agent right
+                moveZ = 1; 
+                transform.localPosition += new Vector3(0, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 4:
+            case 4:             // Move agent left
                 moveZ = -1;
+                transform.localPosition += new Vector3(0, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 5:
+            case 5:             // Move agent forward and to left
                 moveX = 1;
                 moveZ = 1;
+                transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 6:
+            case 6:             // Move agent back and to right
                 moveX = -1;
                 moveZ = -1;
+                transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 7:
+            case 7:             // Move agent forward and to left
                 moveX = -1;
                 moveZ = 1;
+                transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 8:
+            case 8:             // Move agent back and to right
                 moveX = 1;
                 moveZ = -1;
+                transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
         }
         
-        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
+        // transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
         
         if(actions.DiscreteActions[1] == 1) 
             Shoot();    // Call shoot function
@@ -229,7 +240,7 @@ public class kbmShootingAgent : Agent
     {
         floorMeshRenderer.material = winMaterial;  // Set floor to red to show it failed
         TrainingProgressText.Success++;
-        AddReward(1f);  // Reward agent of killing enemy
+        AddReward(1.5f);  // Reward agent of killing enemy
         EndEpisode();           // End current episode
     }
 
@@ -243,13 +254,13 @@ public class kbmShootingAgent : Agent
             transform.localRotation = startRot;
             
             TrainingProgressText.Fail++;
-            SetReward(-1f); // Punish agent
+            AddReward(-1f); // Punish agent
             EndEpisode();   // End current episode
         }
         
         if (collision.gameObject.CompareTag("Checkpoint")) // If agent goes out of bounds
         {
-            SetReward(0.2f); // Punish agent
+            AddReward(0.2f); // Punish agent
             collision.gameObject.SetActive(false);
         }
     }

@@ -26,4 +26,4 @@ behaviors:
         encoding_size: 128
     max_steps: 100000
     time_horizon: 64
-    summary_freq: 10000
+    summary_freq: 5000

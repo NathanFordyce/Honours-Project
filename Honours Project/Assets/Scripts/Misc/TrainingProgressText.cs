@@ -27,7 +27,7 @@ public static class TrainingProgressText
                 Success, 
                 Fail,
                 percentage.ToString("0"),
-                Reward);
+                Reward.ToString("F2"));
         }
     }
 }
