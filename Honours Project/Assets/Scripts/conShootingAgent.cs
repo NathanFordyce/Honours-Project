@@ -6,10 +6,9 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-using UnityEditor;
-using UnityEngine.Analytics;
+using Random = UnityEngine.Random;
 
-public class ShootingAgent : Agent
+public class conShootingAgent : Agent
 {
     [Header("Shooting")]
     [SerializeField] private Transform shootPoint;
@@ -48,8 +47,6 @@ public class ShootingAgent : Agent
         var layerMask = 1 << LayerMask.NameToLayer("Enemy");
         var direction = transform.forward;
         
-        Debug.Log("Shooting");
-
         Debug.DrawRay(shootPoint.position, direction * 10f, Color.blue, 2f);
 
         if (Physics.Raycast(shootPoint.position, direction, out var hit, 10f, layerMask))
@@ -62,22 +59,18 @@ public class ShootingAgent : Agent
             }
             else if (hit.collider.CompareTag("Wall"))   // If hit wall
             {
-                print("Hello");
-                TrainingProgressText.Fail++;
+                // TrainingProgressText.Fail++;
                 //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-                //AddReward(-0.5f);      // Punish agent
-                SetReward(-1f); // Punish agent
-                EndEpisode();   // End current episode
+                AddReward(-0.2f);      // Punish agent
+                // EndEpisode();   // End current episode
             }
         }
         else
         {
-            TrainingProgressText.Fail++;
-            floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            // AddReward(-0.5f);      // Punish agent
-            
-            SetReward(-1f); // Punish agent
-            EndEpisode();   // End current episode
+            // TrainingProgressText.Fail++;
+            // floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
+            AddReward(-0.2f);      // Punish agent
+            //EndEpisode();   // End current episode
         }
 
         // Set shoot cooldown variables
@@ -89,7 +82,7 @@ public class ShootingAgent : Agent
     {
         TrainingProgressText.Reward = GetCumulativeReward();
         
-        SetReward(-(1 / MaxStep));
+        AddReward(-(1f / MaxStep));
 
         if (!shootAvailable)    // If shoot not available
         {
@@ -98,11 +91,6 @@ public class ShootingAgent : Agent
             if (stepsUntilCanShoot <= 0)    // Check if counter is over
                 shootAvailable = true;
         }
-
-        // if (transform.localPosition.z == enemyTransform.localPosition.z)
-        // {
-        //     AddReward(0.1f);
-        // }
     }
 
     public override void Initialize() // Used instead of Start()
@@ -115,23 +103,22 @@ public class ShootingAgent : Agent
     public override void OnEpisodeBegin()
     {
         TrainingProgressText.Episode++;
-        
-        
         Debug.Log("Episode Begin");
         
         transform.localPosition = startPos;     // Reset agent back to starting position
         transform.localRotation = startRot;
-        enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
         
+        enemyTransform.localPosition = new Vector3(6f, 1.3f, Random.Range(-8f, 8f));
+        
+        // enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
+
         // Move enemy object to new position
         // if(!switchSide)
         //     enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
         // else
         //     enemyTransform.localPosition = new Vector3(4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
 
-        //rb.velocity = Vector3.zero; // Stop agent from moving
-        //shootAvailable = true;      // Reset shoot check
-        switchSide = !switchSide;
+        shootAvailable = true;      // Reset shoot check
     }
     
     
@@ -139,7 +126,6 @@ public class ShootingAgent : Agent
     {
         // Observe the agents location and enemy location
         sensor.AddObservation(transform.localPosition);
-        // sensor.AddObservation(enemyTransform.localPosition);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -198,7 +184,7 @@ public class ShootingAgent : Agent
             transform.localRotation = startRot;
             
             TrainingProgressText.Fail++;
-            SetReward(-1f); // Punish agent
+            AddReward(-1f); // Punish agent
             EndEpisode();   // End current episode
         }
     }
