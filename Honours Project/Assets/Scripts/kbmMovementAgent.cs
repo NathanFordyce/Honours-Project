@@ -22,42 +22,39 @@ public class kbmMovementAgent : Agent
     private Vector3 startPos;
     private void Start()
     {
-        startPos = transform.localPosition;
+        startPos = transform.localPosition;         // Store agents initial position
     }
     
     public override void OnEpisodeBegin()
     {
-        TrainingProgressText.Episode++;
+        TrainingProgressText.Episode++;             // Increment total episodes performed on overlay
 
-        if (isWalls)
+        if (isWalls)        // If using wall environment
         {
-            obstacles.ResetForEpisode();
+            obstacles.ResetForEpisode();            // Sets walls to new locations and reactivate all checkpoints
             // Environment with walls spawn points
             transform.localPosition = new Vector3(-15f, 0f, Random.Range(-7f, 7f));
             targetTransform.localPosition = new Vector3(15f, 0f, Random.Range(-7f, 7f));
         }
         else
-        { 
-            // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, Random.Range(-9f, -5f));
-            // transform.localPosition = new Vector3(Random.Range(-9f, 9f), 0f, -7f);
-            // targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, 7f);
-
+        {
             // Give agent and target new starting position
-            transform.localPosition = startPos;
-            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
-
-            // GoalRandPos();
+            transform.localPosition = startPos;                                 // Reset agent to starting position
+            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));  // Set target to random position within environment for second brain
             
-            // Goal locations for initial brain
-            /*int temp = Random.Range(0, 4);
-            if(temp == 0) 
+            // Code below was used for the first brain training
+            // Goal is randomly spawned in one of the 4 directions
+            /*
+             int temp = Random.Range(0, 4);
+            if(temp == 0)                                                       // Set position to be in positive X direction
                 targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
-            else if(temp == 1) 
-                targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);
-            else if (temp == 2) 
-                targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
-            else if (temp == 3) 
-                targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);*/
+            else if(temp == 1)                                                  // Set position to be in negative X direction
+                targetTransform.localPosition = new Vector3(-3f, 0.35f, 0f);    
+            else if (temp == 2)                                                 // Set position to be in positive Z direction
+                targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);     
+            else if (temp == 3)                                                 // Set position to be in negative Z direction
+                targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
+            */
         }
     }
 
@@ -76,7 +73,7 @@ public class kbmMovementAgent : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         TrainingProgressText.ScreenText();
-        // Store the continuous actions for X and Y positions
+        
         float moveX = 0;
         float moveZ = 0;
         
@@ -94,11 +91,11 @@ public class kbmMovementAgent : Agent
                 transform.localPosition += new Vector3(moveX, 0, 0) * Time.deltaTime * moveSpeed;
 
                 break;
-            case 3:             // Move agent right
+            case 3:             // Move agent left
                 moveZ = 1;
                 transform.localPosition += new Vector3(0, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 4:             // Move agent left
+            case 4:             // Move agent right
                 moveZ = -1;
                 transform.localPosition += new Vector3(0, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
@@ -112,26 +109,24 @@ public class kbmMovementAgent : Agent
                 moveZ = -1;
                 transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 7:             // Move agent forward and to left
+            case 7:             // Move agent back and to left
                 moveX = -1;
                 moveZ = 1;
                 transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 8:             // Move agent back and to right
+            case 8:             // Move agent forward and to right
                 moveX = 1;
                 moveZ = -1;
                 transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
         }
-        
-        // Move agent using actions received
-        // transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
 
+        // WASD Controls to move agent when in heuristic mode
         if (Input.GetKey(KeyCode.W))
             discreteActions[0] = 1;
         else if (Input.GetKey(KeyCode.S))
@@ -140,6 +135,8 @@ public class kbmMovementAgent : Agent
             discreteActions[0] = 3;
         else if (Input.GetKey(KeyCode.D))
             discreteActions[0] = 4;
+        
+        // Controls to move agent in diagonal directions
         else if (Input.GetKey(KeyCode.P))
             discreteActions[0] = 5;
         else if (Input.GetKey(KeyCode.O))
@@ -156,27 +153,27 @@ public class kbmMovementAgent : Agent
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Goal")) // If agent reaches the goal
+        if (collision.gameObject.CompareTag("Goal"))    // If agent reaches the goal
         {
-            TrainingProgressText.Success++;
+            TrainingProgressText.Success++;             // Increment total successes for overlay
             
-            floorMeshRenderer.material = winMaterial;   // Set floor to pink to show it was successful
-            AddReward(1f);  // Reward agent
-            EndEpisode();   // End current episode
+            floorMeshRenderer.material = winMaterial;   // Set floor to pink to show agent was successful
+            AddReward(1f);                      // Reward agent
+            EndEpisode();                               // End current episode
         }
         
-        if (collision.gameObject.CompareTag("Wall")) // If agent goes out of bounds
+        if (collision.gameObject.CompareTag("Wall"))    // If agent goes out of bounds
         {
-            TrainingProgressText.Fail++;
+            TrainingProgressText.Fail++;                // Increment total fails for overlay
             
-            floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            AddReward(-1f); // Punish agent
-            EndEpisode();   // End current episode
+            floorMeshRenderer.material = loseMaterial;  // Set floor to red to show agent failed
+            AddReward(-1f);                     // Punish agent
+            EndEpisode();                               // End current episode
         }
 
-        if (collision.gameObject.CompareTag("Checkpoint")) // If agent goes out of bounds
+        if (collision.gameObject.CompareTag("Checkpoint"))  // If agent reaches checkpoint
         {
-            AddReward(0.2f); // Punish agent
+            AddReward(0.2f);                        // Reward agent
             collision.gameObject.SetActive(false);          // Set checkpoint to inactive
         }
     }

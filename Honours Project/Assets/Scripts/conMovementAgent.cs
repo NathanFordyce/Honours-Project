@@ -5,7 +5,6 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-using UnityEngine.Experimental.Playables;
 using Random = UnityEngine.Random;
 
 public class conMovementAgent : Agent
@@ -41,7 +40,7 @@ public class conMovementAgent : Agent
             transform.localPosition = startPos;                                 // Reset agent to starting location
             targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));  // Set target to random position within environment for second brain
             
-            // Code below was used for the first brain 
+            // Code below was used for the first brain training
             // Goal is randomly spawned in one of the 4 directions
             
             /*
@@ -88,7 +87,7 @@ public class conMovementAgent : Agent
     {
         ActionSegment<float> coninuousActions = actionsOut.ContinuousActions;
         coninuousActions[0] = Input.GetAxisRaw("Vertical");         // W = 1 & S = -1 - Control
-        coninuousActions[1] = Input.GetAxisRaw("Horizontal");       // A = -1 & D = 1 - Control
+        coninuousActions[1] = Input.GetAxisRaw("Horizontal");       // A = 1 & D = -1 - Control
 
     }
     
@@ -112,9 +111,9 @@ public class conMovementAgent : Agent
             EndEpisode();                                   // End current episode
         }
 
-        if (collision.gameObject.CompareTag("Checkpoint"))  // If agent goes out of bounds
+        if (collision.gameObject.CompareTag("Checkpoint"))  // If agent reaches checkpoint
         {
-            AddReward(0.2f);                        // Punish agent
+            AddReward(0.2f);                        // Reward agent
             collision.gameObject.SetActive(false);          // Set checkpoint to inactive
         }
     }

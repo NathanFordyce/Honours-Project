@@ -55,23 +55,16 @@ public class kbmShootingAgent : Agent
                     EnemyDead();    // Reward agent and end episode
                 
             }
-            else if (hit.collider.CompareTag("Wall"))   // If hit wall
+            else if (hit.collider.CompareTag("Wall"))   // If agent shot at wall
             {
-                TrainingProgressText.Fail++;
                 //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-                AddReward(-0.2f);      // Punish agent
-                // SetReward(-1f); // Punish agent
-                // EndEpisode();   // End current episode
+                AddReward(-0.2f);               // Punish agent
             }
         }
-        else
+        else                                            // If agent shoots and hits nothing
         {
-            TrainingProgressText.Fail++;
-            //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            AddReward(-0.2f);      // Punish agent
-            
-            // SetReward(-1f); // Punish agent
-            // EndEpisode();   // End current episode
+            //floorMeshRenderer.material = loseMaterial;// Set floor to red to show it failed
+            AddReward(-0.2f);                   // Punish agent
         }
 
         // Set shoot cooldown variables
@@ -83,43 +76,45 @@ public class kbmShootingAgent : Agent
     {
         TrainingProgressText.Reward = GetCumulativeReward();
 
-        AddReward(-(1f / MaxStep));
+        AddReward(-(1f / MaxStep)); // Add small punishment each update
 
-        if (!shootAvailable)    // If shoot not available
+        if (!shootAvailable)                // If shoot not available
         {
-            stepsUntilCanShoot--;       // Decrease counter
+            stepsUntilCanShoot--;           // Decrease counter
 
-            if (stepsUntilCanShoot <= 0)    // Check if counter is over
+            if (stepsUntilCanShoot <= 0)    // Check if counter is over if so reset availability
                 shootAvailable = true;
         }
         
-        float angle = Vector3.Angle(transform.forward, enemyTransform.position - transform.position);
+        float angle = Vector3.Angle(transform.forward, enemyTransform.position - transform.position);       // Calculates angle between enemy goal and agent in front of it 
         if (Mathf.Abs(angle) < 30f)
         {
-            if(Vector3.Distance(transform.position, enemyTransform.position) < 8f)
-                transform.LookAt(enemyTransform);
+            if(Vector3.Distance(transform.position, enemyTransform.position) < 8f)      // If within vision and close proximity
+                transform.LookAt(enemyTransform);                                           // Make agent look directly at enemy goal
         }
     }
 
     public override void Initialize() // Used instead of Start()
     {
-        startPos = transform.localPosition; // Get players starting position
-        startRot = transform.localRotation; // Get players starting rotation
+        // Store agents local start location and rotation
+        startPos = transform.localPosition;
+        startRot = transform.localRotation; 
     }
 
     public override void OnEpisodeBegin()
     {
-        TrainingProgressText.Episode++;
+        TrainingProgressText.Episode++;             // Increment total episodes performed on overlay
         Debug.Log("Episode Begin");
 
         // Set agents start location and rotation
-        transform.localPosition = startPos;     // Reset agent back to starting position
+        transform.localPosition = startPos;         // Reset agent back to starting position
         // transform.localPosition = new Vector3(-8f, 1.3f, Random.Range(-10f, 10f));     // Reset agent back to starting position
 
-        transform.localRotation = startRot;
+        transform.localRotation = startRot;         // Reset agents rotation
 
         // Set goal to new random position
         enemyTransform.localPosition = new Vector3(6f, 1.3f, Random.Range(-8f, 8f));
+        
         // enemyTransform.localPosition = new Vector3(Random.Range(6f, 9f), 1.3f, Random.Range(-10f, 10f));
         
         shootAvailable = true;      // Reset shoot check
@@ -128,17 +123,16 @@ public class kbmShootingAgent : Agent
     
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Observe the agents location and enemy location
+        // Observe the agents location
         sensor.AddObservation(transform.localPosition);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        // Give agent discrete action if E is pressed
+        // Give agent discrete action if R is pressed to shoot
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
         discreteActions[1] = Input.GetKey(KeyCode.R) ? 1 : 0;
         
-        // Give agent continuous action if A/D is pressed
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
 
         if (Input.GetKey(KeyCode.Q))
@@ -146,6 +140,7 @@ public class kbmShootingAgent : Agent
         else if (Input.GetKey(KeyCode.E))
             continuousActions[0] = 1;
         
+        // WASD Controls to move agent when in heuristic mode
         if (Input.GetKey(KeyCode.W))            // Forward Movement
             discreteActions[0] = 1;
         else if (Input.GetKey(KeyCode.S))       // Backward Movement
@@ -154,13 +149,15 @@ public class kbmShootingAgent : Agent
             discreteActions[0] = 3;
         else if (Input.GetKey(KeyCode.D))       // Right Movement
             discreteActions[0] = 4;
+        
+        // Controls to move agent in diagonal directions
         else if (Input.GetKey(KeyCode.U))       // Forward to Left Diagonal Movement
             discreteActions[0] = 5;
         else if (Input.GetKey(KeyCode.O))       // Backward to Right Diagonal Movement
             discreteActions[0] = 6;
         else if (Input.GetKey(KeyCode.P))       // Backward to Left Diagonal Movement
             discreteActions[0] = 7;
-        else if (Input.GetKey(KeyCode.I))       // Backward to Left Diagonal Movement
+        else if (Input.GetKey(KeyCode.I))       // Forward to Right Diagonal Movement
             discreteActions[0] = 8;
         else if (Input.GetKey(KeyCode.Space))   // No movement
             discreteActions[0] = 0;
@@ -189,11 +186,11 @@ public class kbmShootingAgent : Agent
                 transform.localPosition += new Vector3(moveX, 0, 0) * Time.deltaTime * moveSpeed;
 
                 break;
-            case 3:             // Move agent right
+            case 3:             // Move agent left
                 moveZ = 1; 
                 transform.localPosition += new Vector3(0, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 4:             // Move agent left
+            case 4:             // Move agent right
                 moveZ = -1;
                 transform.localPosition += new Vector3(0, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
@@ -207,12 +204,12 @@ public class kbmShootingAgent : Agent
                 moveZ = -1;
                 transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 7:             // Move agent forward and to left
+            case 7:             // Move agent back and to left
                 moveX = -1;
                 moveZ = 1;
                 transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
                 break;
-            case 8:             // Move agent back and to right
+            case 8:             // Move agent forward and to right
                 moveX = 1;
                 moveZ = -1;
                 transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
@@ -224,38 +221,29 @@ public class kbmShootingAgent : Agent
         if(actions.DiscreteActions[1] == 1) 
             Shoot();    // Call shoot function
         
+        // Store continuous action to rotate agent left and right
         float rot = actions.ContinuousActions[0];
-        transform.Rotate(0f,rot,0f);
+        transform.Rotate(0f,rot,0f);    // Rotate agent left or right
         
         
     }
 
     public void EnemyDead()
     {
-        floorMeshRenderer.material = winMaterial;  // Set floor to red to show it failed
-        TrainingProgressText.Success++;
-        AddReward(1.5f);  // Reward agent of killing enemy
-        EndEpisode();           // End current episode
+        floorMeshRenderer.material = winMaterial;   // Set floor to pink to show agent was successful
+        TrainingProgressText.Success++;             // Increment total success for overlay
+        AddReward(1.5f);                    // Reward agent of killing enemy
+        EndEpisode();                               // End current episode
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy") // If agent goes out of bounds
         {
-            floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            
-            transform.localPosition = startPos;     // Reset agent back to starting position
-            transform.localRotation = startRot;
-            
-            TrainingProgressText.Fail++;
-            AddReward(-1f); // Punish agent
-            EndEpisode();   // End current episode
-        }
-        
-        if (collision.gameObject.CompareTag("Checkpoint")) // If agent goes out of bounds
-        {
-            AddReward(0.2f); // Punish agent
-            collision.gameObject.SetActive(false);
+            floorMeshRenderer.material = loseMaterial;  // Set floor to red to show agent failed
+            TrainingProgressText.Fail++;                // Increment total fails for overlay
+            AddReward(-1f);                     // Punish agent
+            EndEpisode();                               // End current episode
         }
     }
 }

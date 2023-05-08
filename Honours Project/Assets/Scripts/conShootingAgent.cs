@@ -30,8 +30,6 @@ public class conShootingAgent : Agent
 
     private Vector3 startPos;
     private Quaternion startRot;
-
-    private bool switchSide = false;
     
     private void Shoot()
     {
@@ -129,7 +127,7 @@ public class conShootingAgent : Agent
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
         continuousActions[0] = Input.GetAxisRaw("Vertical");
        
-        // Give agent continuous action to move left and right if A (-1) / D (1) is pressed
+        // Give agent continuous action to move left and right if A (1) / D (-1) is pressed
         continuousActions[1] = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKey(KeyCode.Q))        // Give agent continuous action to rotate left when Q is pressed
