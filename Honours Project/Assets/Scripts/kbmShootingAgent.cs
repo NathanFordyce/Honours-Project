@@ -122,12 +122,6 @@ public class kbmShootingAgent : Agent
         enemyTransform.localPosition = new Vector3(6f, 1.3f, Random.Range(-8f, 8f));
         // enemyTransform.localPosition = new Vector3(Random.Range(6f, 9f), 1.3f, Random.Range(-10f, 10f));
         
-        // Move enemy object to new position
-        // if(!switchSide)
-        //     enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
-        // else
-        //     enemyTransform.localPosition = new Vector3(4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
-
         shootAvailable = true;      // Reset shoot check
     }
     

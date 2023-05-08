@@ -105,8 +105,8 @@ public class conShootingAgent : Agent
         TrainingProgressText.Episode++;
         Debug.Log("Episode Begin");
         
-        // transform.localPosition = startPos;     // Reset agent back to starting position
-        transform.localPosition = new Vector3(-5f, 1.3f, Random.Range(-10f, 10f));     // Reset agent back to starting position
+        transform.localPosition = startPos;     // Reset agent back to starting position
+        // transform.localPosition = new Vector3(-5f, 1.3f, Random.Range(-10f, 10f));     // Reset agent back to starting position
         transform.localRotation = startRot;
         
         enemyTransform.localPosition = new Vector3(6f, 1.3f, Random.Range(-8f, 8f));

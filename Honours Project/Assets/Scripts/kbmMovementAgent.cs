@@ -44,13 +44,12 @@ public class kbmMovementAgent : Agent
 
             // Give agent and target new starting position
             transform.localPosition = startPos;
-            // targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
 
             // GoalRandPos();
             
             // Goal locations for initial brain
-            int temp = Random.Range(0, 4);
-
+            /*int temp = Random.Range(0, 4);
             if(temp == 0) 
                 targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
             else if(temp == 1) 
@@ -58,7 +57,7 @@ public class kbmMovementAgent : Agent
             else if (temp == 2) 
                 targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);
             else if (temp == 3) 
-                targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
+                targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);*/
         }
     }
 
@@ -126,7 +125,7 @@ public class kbmMovementAgent : Agent
         }
         
         // Move agent using actions received
-        //transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
+        // transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
