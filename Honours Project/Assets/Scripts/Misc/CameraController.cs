@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
@@ -10,7 +8,8 @@ public class CameraController : MonoBehaviour
     
     private Transform move;
 
-    [SerializeField] private float sensX = 750f, sensY = 400f;
+    [SerializeField] private float sensX = 375f, sensY = 200f;
+    [SerializeField] private Text overlay;
     private float xRotation, yRotation;
 
     private Vector3 direction;
@@ -28,13 +27,34 @@ public class CameraController : MonoBehaviour
         MovementControls();
         
         if(Input.GetKey(KeyCode.E))
-            transform.localPosition += new Vector3(0,2,0) * Time.deltaTime;
+            transform.localPosition += new Vector3(0,speed,0) * Time.deltaTime;
         else if(Input.GetKey(KeyCode.Q))
-            transform.localPosition -= new Vector3(0,2,0) * Time.deltaTime;
-        else if(Input.GetKey(KeyCode.Escape))
+            transform.localPosition -= new Vector3(0,speed,0) * Time.deltaTime;
+        else if(Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
 
-        
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            speed -= 5;
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+            speed += 5;
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+            sensX -= 10;
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+            sensX += 10;
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+            sensY -= 10;
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+            sensY += 10;
+
+        speed = Mathf.Clamp(speed, 5f, 50f);
+        sensX = Mathf.Clamp(sensX, 10f, 750f);
+        sensY = Mathf.Clamp(sensY, 10f, 750f);
+
+        overlay.text = string.Format("Speed (1 & 2) = {0}, SensX (3 & 4) = {1}, SensY (5 & 6) = {2}",
+            speed,
+            sensX,
+            sensY);
+
 
     }
 
