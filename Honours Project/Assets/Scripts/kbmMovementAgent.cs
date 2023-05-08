@@ -64,13 +64,15 @@ public class kbmMovementAgent : Agent
 
     private void FixedUpdate()
     {
-        AddReward(-(1f / MaxStep));
+        TrainingProgressText.Reward = GetCumulativeReward();
+
+        // AddReward(-(1f / MaxStep));
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // Observe the agents location and target location
-        sensor.AddObservation(transform.localPosition);
+        // sensor.AddObservation(transform.localPosition);
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -170,7 +172,6 @@ public class kbmMovementAgent : Agent
             
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
             AddReward(-1f); // Punish agent
-            // SetReward(-1f); // Punish agent (Used for the initial environment without checkpoints
             EndEpisode();   // End current episode
         }
 

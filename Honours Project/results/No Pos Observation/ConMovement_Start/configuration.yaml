@@ -46,10 +46,10 @@ behaviors:
           deterministic: false
         learning_rate: 0.0003
         encoding_size: 128
-    init_path: results\ConMovement_Start\Movement\checkpoint.pt
+    init_path: null
     keep_checkpoints: 5
     checkpoint_interval: 500000
-    max_steps: 100000
+    max_steps: 50000
     time_horizon: 64
     summary_freq: 5000
     threaded: false
@@ -75,8 +75,8 @@ engine_settings:
   no_graphics: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: ConMovement1
-  initialize_from: ConMovement_Start
+  run_id: ConMovement_Start
+  initialize_from: null
   load_model: false
   resume: false
   force: false

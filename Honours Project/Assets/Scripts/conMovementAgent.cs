@@ -62,7 +62,9 @@ public class conMovementAgent : Agent
     
     private void FixedUpdate()
     { 
-        AddReward(-(1f / MaxStep));
+        TrainingProgressText.Reward = GetCumulativeReward();
+
+        // AddReward(-(1f / MaxStep));
     }
     
     public override void CollectObservations(VectorSensor sensor)

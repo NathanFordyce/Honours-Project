@@ -2,22 +2,22 @@
     "Movement": {
         "checkpoints": [
             {
-                "steps": 100011,
-                "file_path": "results\\ConMovement1\\Movement\\Movement-100011.onnx",
+                "steps": 50002,
+                "file_path": "results\\ConMovement1\\Movement\\Movement-50002.onnx",
                 "reward": 1.0,
-                "creation_time": 1683538302.6423686,
+                "creation_time": 1683387807.3371265,
                 "auxillary_file_paths": [
-                    "results\\ConMovement1\\Movement\\Movement-100011.pt"
+                    "results\\ConMovement1\\Movement\\Movement-50002.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 100011,
+            "steps": 50002,
             "file_path": "results\\ConMovement1\\Movement.onnx",
             "reward": 1.0,
-            "creation_time": 1683538302.6423686,
+            "creation_time": 1683387807.3371265,
             "auxillary_file_paths": [
-                "results\\ConMovement1\\Movement\\Movement-100011.pt"
+                "results\\ConMovement1\\Movement\\Movement-50002.pt"
             ]
         }
     },

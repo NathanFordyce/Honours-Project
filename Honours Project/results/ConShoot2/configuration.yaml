@@ -1,6 +1,6 @@
 default_settings: null
 behaviors:
-  Movement:
+  Shooting:
     trainer_type: ppo
     hyperparameters:
       batch_size: 10
@@ -35,7 +35,7 @@ behaviors:
           deterministic: false
       curiosity:
         gamma: 0.99
-        strength: 0.02
+        strength: 0.05
         network_settings:
           normalize: false
           hidden_units: 128
@@ -46,7 +46,7 @@ behaviors:
           deterministic: false
         learning_rate: 0.0003
         encoding_size: 128
-    init_path: results\ConMovement_Start\Movement\checkpoint.pt
+    init_path: results\ConShoot1\Shooting\checkpoint.pt
     keep_checkpoints: 5
     checkpoint_interval: 500000
     max_steps: 100000
@@ -75,8 +75,8 @@ engine_settings:
   no_graphics: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: ConMovement1
-  initialize_from: ConMovement_Start
+  run_id: ConShoot2
+  initialize_from: ConShoot1
   load_model: false
   resume: false
   force: false

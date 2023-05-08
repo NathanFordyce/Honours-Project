@@ -1073,7 +1073,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: cd785ba2e86fd64489be4ab67bd2641b, type: 3}
   m_InferenceDevice: 1
-  m_BehaviorType: 2
+  m_BehaviorType: 0
   m_BehaviorName: Shooting
   TeamId: 0
   m_UseChildSensors: 1
