@@ -15,6 +15,9 @@ public class kbmMovementAgent : Agent
     [SerializeField] private Material loseMaterial;
     [SerializeField] private MeshRenderer floorMeshRenderer;
     [SerializeField] private MiscObjects obstacles;
+    
+    [Header("Stat Text")]
+    [SerializeField] private StatsText stats;
 
     [Header("Which Environment")]
     [SerializeField] private bool isWalls;
@@ -27,7 +30,8 @@ public class kbmMovementAgent : Agent
     
     public override void OnEpisodeBegin()
     {
-        TrainingProgressText.Episode++;             // Increment total episodes performed on overlay
+        // TrainingProgressText.Episode++;             // Increment total episodes performed on overlay
+        stats.Episode++;             // Increment total episodes performed on overlay
 
         if (isWalls)        // If using wall environment
         {
@@ -60,7 +64,8 @@ public class kbmMovementAgent : Agent
 
     private void FixedUpdate()
     {
-        TrainingProgressText.Reward = GetCumulativeReward();
+        // TrainingProgressText.Reward = GetCumulativeReward();
+        stats.Reward = GetCumulativeReward();
 
         // AddReward(-(1f / MaxStep));
     }
@@ -72,8 +77,7 @@ public class kbmMovementAgent : Agent
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
-        TrainingProgressText.ScreenText();
-        
+        // TrainingProgressText.ScreenText();
         float moveX = 0;
         float moveZ = 0;
         
@@ -155,7 +159,8 @@ public class kbmMovementAgent : Agent
     {
         if (collision.gameObject.CompareTag("Goal"))    // If agent reaches the goal
         {
-            TrainingProgressText.Success++;             // Increment total successes for overlay
+            // TrainingProgressText.Success++;             // Increment total successes for overlay
+            stats.Success++;             // Increment total successes for overlay
             
             floorMeshRenderer.material = winMaterial;   // Set floor to pink to show agent was successful
             AddReward(1f);                      // Reward agent
@@ -164,7 +169,8 @@ public class kbmMovementAgent : Agent
         
         if (collision.gameObject.CompareTag("Wall"))    // If agent goes out of bounds
         {
-            TrainingProgressText.Fail++;                // Increment total fails for overlay
+            // TrainingProgressText.Fail++;                // Increment total fails for overlay
+            stats.Fail++;                // Increment total fails for overlay
             
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show agent failed
             AddReward(-1f);                     // Punish agent

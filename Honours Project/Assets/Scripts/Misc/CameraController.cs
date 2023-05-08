@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-    public float speed = 1.2f;
+    public float speed = 2f;
     
     private Transform move;
 

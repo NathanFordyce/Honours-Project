@@ -9,11 +9,18 @@ using Random = UnityEngine.Random;
 
 public class conMovementAgent : Agent
 {
+    [Header("Goal Transform")]
     [SerializeField] private Transform targetTransform;
+    
+    [Header("Floor")]
     [SerializeField] private Material winMaterial;
     [SerializeField] private Material loseMaterial;
     [SerializeField] private MeshRenderer floorMeshRenderer;
+    
+    [Header("Obstacles")]
     [SerializeField] private MiscObjects obstacles;
+    [Header("Stat Text")]
+    [SerializeField] private StatsText stats;
 
     private Vector3 startPos;
     
@@ -27,6 +34,7 @@ public class conMovementAgent : Agent
     public override void OnEpisodeBegin()
     {
         TrainingProgressText.Episode++;
+        stats.Episode++;
         
         if (isWalls)    // If wall environment is being used
         {
@@ -60,7 +68,8 @@ public class conMovementAgent : Agent
     
     private void FixedUpdate()
     { 
-        TrainingProgressText.Reward = GetCumulativeReward();
+        // TrainingProgressText.Reward = GetCumulativeReward();
+        stats.Reward = GetCumulativeReward();
 
         // AddReward(-(1f / MaxStep));
     }
@@ -72,7 +81,7 @@ public class conMovementAgent : Agent
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
-        TrainingProgressText.ScreenText();
+        // TrainingProgressText.ScreenText();
         // Store the continuous actions for X and Z positions
         float moveX = actions.ContinuousActions[0];
         float moveZ = actions.ContinuousActions[1];
@@ -95,7 +104,8 @@ public class conMovementAgent : Agent
     {
         if (collision.gameObject.CompareTag("Goal"))        // If agent reaches the goal
         {
-            TrainingProgressText.Success++;                 // Update total success on overlay
+            // TrainingProgressText.Success++;                 // Update total success on overlay
+            stats.Success++;                 // Update total success on overlay
             
             floorMeshRenderer.material = winMaterial;       // Set floor to pink to show it was successful
             AddReward(1f);                          // Reward agent
@@ -104,7 +114,8 @@ public class conMovementAgent : Agent
         
         if (collision.gameObject.CompareTag("Wall"))        // If agent goes out of bounds
         {
-            TrainingProgressText.Fail++;                    // Update total fails on overlay
+            // TrainingProgressText.Fail++;                    // Update total fails on overlay
+            stats.Fail++;                    // Update total fails on overlay
             
             floorMeshRenderer.material = loseMaterial;      // Set floor to red to show it failed
             AddReward(-1f);                         // Punish agent
