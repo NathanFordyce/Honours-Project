@@ -30,7 +30,6 @@ public class conShootingAgent : Agent
 
     private Vector3 startPos;
     private Quaternion startRot;
-    private Rigidbody rb;
 
     private bool switchSide = false;
     
@@ -57,20 +56,16 @@ public class conShootingAgent : Agent
                     EnemyDead();    // Reward agent and end episode
                 
             }
-            else if (hit.collider.CompareTag("Wall"))   // If hit wall
+            else if (hit.collider.CompareTag("Wall"))   // If shot at wall punish agent
             {
-                // TrainingProgressText.Fail++;
                 //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-                AddReward(-0.2f);      // Punish agent
-                // EndEpisode();   // End current episode
+                AddReward(-0.2f);               // Punish agent
             }
         }
-        else
+        else                                            // If shoots and hits nothing
         {
-            // TrainingProgressText.Fail++;
             // floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            AddReward(-0.2f);      // Punish agent
-            //EndEpisode();   // End current episode
+            AddReward(-0.2f);                   // Punish agent
         }
 
         // Set shoot cooldown variables
@@ -82,42 +77,37 @@ public class conShootingAgent : Agent
     {
         TrainingProgressText.Reward = GetCumulativeReward();
         
-        AddReward(-(1f / MaxStep));
+        AddReward(-(1f / MaxStep)); // Add small punishment each update
 
-        if (!shootAvailable)    // If shoot not available
+        if (!shootAvailable)                // If shoot not available
         {
-            stepsUntilCanShoot--;       // Decrease counter
+            stepsUntilCanShoot--;           // Decrease counter
 
-            if (stepsUntilCanShoot <= 0)    // Check if counter is over
+            if (stepsUntilCanShoot <= 0)    // Check if counter is over if so reset availability
                 shootAvailable = true;
         }
     }
 
     public override void Initialize() // Used instead of Start()
     {
-        startPos = transform.localPosition; // Get players starting position
-        startRot = transform.localRotation; // Get players starting position
-        rb = GetComponent<Rigidbody>();     // Get agents rigid body component
+        // Stores agents starting location and rotation
+        startPos = transform.localPosition;
+        startRot = transform.localRotation;
     }
 
     public override void OnEpisodeBegin()
     {
-        TrainingProgressText.Episode++;
+        TrainingProgressText.Episode++;                 // Increment total episodes performed on overlay
         Debug.Log("Episode Begin");
+
+        transform.localPosition = startPos;             // Reset agent to starting position
+        // transform.localPosition = new Vector3(-5f, 1.3f, Random.Range(-10f, 10f));       // Reset agent back to starting position
         
-        transform.localPosition = startPos;     // Reset agent back to starting position
-        // transform.localPosition = new Vector3(-5f, 1.3f, Random.Range(-10f, 10f));     // Reset agent back to starting position
-        transform.localRotation = startRot;
+        transform.localRotation = startRot;             // Reset agents rotation 
         
-        enemyTransform.localPosition = new Vector3(6f, 1.3f, Random.Range(-8f, 8f));
+        enemyTransform.localPosition = new Vector3(6f, 1.3f, Random.Range(-8f, 8f));    // Set enemy goal to random position along the Z axis
         
         // enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
-
-        // Move enemy object to new position
-        // if(!switchSide)
-        //     enemyTransform.localPosition = new Vector3(-4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
-        // else
-        //     enemyTransform.localPosition = new Vector3(4.5f, 1.3f, UnityEngine.Random.Range(-6f, 6f));
 
         shootAvailable = true;      // Reset shoot check
     }
@@ -125,68 +115,68 @@ public class conShootingAgent : Agent
     
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Observe the agents location and enemy location
+        // Observe the agents location
         sensor.AddObservation(transform.localPosition);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        // Give agent discrete action if E is pressed
+        // Give agent discrete action to shoot if R is pressed
         ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
         discreteActions[0] = Input.GetKey(KeyCode.R) ? 1 : 0;
         
-        // Give agent continuous action if A/D is pressed
+        // Give agent continuous action to move forward or back if W (1) / S (-1) is pressed
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
         continuousActions[0] = Input.GetAxisRaw("Vertical");
        
-        // Give agent continuous action if A/D is pressed
+        // Give agent continuous action to move left and right if A (-1) / D (1) is pressed
         continuousActions[1] = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q))        // Give agent continuous action to rotate left when Q is pressed
             continuousActions[2] = -1;
-        else if (Input.GetKey(KeyCode.E))
+        else if (Input.GetKey(KeyCode.E))   // Give agent continuous action to rotate right when E is pressed
             continuousActions[2] = 1;
 
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
+        TrainingProgressText.ScreenText();
+
         if(actions.DiscreteActions[0] == 1) 
             Shoot();    // Call shoot function
         
+        // Store continuous actions to move agent 
         float moveX = actions.ContinuousActions[0];
         float moveZ = actions.ContinuousActions[1];
         
         float moveSpeed = 2.5f;
-        // Move the agent in the direction given by continuous action
+        
+        // Move agent in given direction and multiply by delta time to move smoothly
         transform.localPosition += new Vector3(-moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
         
+        // Store continuous action to rotate agent left and right
         float rot = actions.ContinuousActions[2];
-        transform.Rotate(0f,rot,0f);
+        transform.Rotate(0f,rot,0f);    // Rotate agent in given direction
         
-        TrainingProgressText.ScreenText();
     }
 
     public void EnemyDead()
     {
-        floorMeshRenderer.material = winMaterial;  // Set floor to red to show it failed
-        TrainingProgressText.Success++;
-        AddReward(1f);  // Reward agent of killing enemy
-        EndEpisode();           // End current episode
+        floorMeshRenderer.material = winMaterial;   // Set floor to pink to show it was successful
+        TrainingProgressText.Success++;             // Increment total successes on overlay
+        AddReward(1f);                      // Reward agent of killing enemy
+        EndEpisode();                               // End current episode
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy") // If agent goes out of bounds
+        if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy")      // If agent collides with environment or Enemy
         {
-            floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            
-            transform.localPosition = startPos;     // Reset agent back to starting position
-            transform.localRotation = startRot;
-            
-            TrainingProgressText.Fail++;
-            AddReward(-1f); // Punish agent
-            EndEpisode();   // End current episode
+            floorMeshRenderer.material = loseMaterial;  // Set floor to red to show agent failed
+            TrainingProgressText.Fail++;                // Increment total fails on overlay
+            AddReward(-1f);                     // Punish agent
+            EndEpisode();                               // End current episode
         }
     }
 }
