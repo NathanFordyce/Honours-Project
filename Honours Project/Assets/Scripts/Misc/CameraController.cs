@@ -31,6 +31,10 @@ public class CameraController : MonoBehaviour
             transform.localPosition += new Vector3(0,2,0) * Time.deltaTime;
         else if(Input.GetKey(KeyCode.Q))
             transform.localPosition -= new Vector3(0,2,0) * Time.deltaTime;
+        else if(Input.GetKey(KeyCode.Escape))
+            Application.Quit();
+
+        
 
     }
 
