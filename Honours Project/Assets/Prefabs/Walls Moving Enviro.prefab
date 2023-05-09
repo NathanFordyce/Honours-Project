@@ -303,9 +303,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 21c07c03b8a4a3642a7a445b99a173e0, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: a3d869b64f670ec4895828453f6e41df, type: 3}
   m_InferenceDevice: 1
-  m_BehaviorType: 0
+  m_BehaviorType: 2
   m_BehaviorName: Movement
   TeamId: 0
   m_UseChildSensors: 1
@@ -333,6 +333,7 @@ MonoBehaviour:
   loseMaterial: {fileID: 2100000, guid: 843ea906d332ded45a5a10205ea41850, type: 2}
   floorMeshRenderer: {fileID: 8435097071531535097}
   obstacles: {fileID: 6732880672411592051}
+  stats: {fileID: 0}
   isWalls: 1
 --- !u!114 &7726222075823939145
 MonoBehaviour:
@@ -1131,6 +1132,7 @@ MonoBehaviour:
   loseMaterial: {fileID: 2100000, guid: 843ea906d332ded45a5a10205ea41850, type: 2}
   floorMeshRenderer: {fileID: 8435097071531535097}
   obstacles: {fileID: 6732880672411592051}
+  stats: {fileID: 0}
   isWalls: 1
 --- !u!114 &8435097071110673833
 MonoBehaviour:
