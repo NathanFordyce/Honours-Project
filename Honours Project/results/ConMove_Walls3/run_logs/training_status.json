@@ -1,0 +1,29 @@
+{
+    "Movement": {
+        "checkpoints": [
+            {
+                "steps": 100047,
+                "file_path": "results\\ConMove_Walls3\\Movement\\Movement-100047.onnx",
+                "reward": -0.999000072479248,
+                "creation_time": 1683662328.1372414,
+                "auxillary_file_paths": [
+                    "results\\ConMove_Walls3\\Movement\\Movement-100047.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 100047,
+            "file_path": "results\\ConMove_Walls3\\Movement.onnx",
+            "reward": -0.999000072479248,
+            "creation_time": 1683662328.1372414,
+            "auxillary_file_paths": [
+                "results\\ConMove_Walls3\\Movement\\Movement-100047.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

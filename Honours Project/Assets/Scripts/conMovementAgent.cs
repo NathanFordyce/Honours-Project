@@ -23,19 +23,22 @@ public class conMovementAgent : Agent
     
     [Header("Which Environment")]
     [SerializeField] private bool isWalls;
+    
     private void Start()
     {
-        startPos = transform.localPosition;
+        startPos = transform.localPosition;             // Store local position at start
     }
     
     public override void OnEpisodeBegin()
     {
-        // TrainingProgressText.Episode++;
-        stats.Episode++;
+        // TrainingProgressText.Episode++;              // Increment total episodes on debug overlay
+        stats.Episode++;                                // Increment total episodes on overlay above environment
         
-        if (isWalls)    // If wall environment is being used
+        if (isWalls)                                    // If wall environment is being used
         {
-            obstacles.ResetForEpisode();
+            obstacles.ResetForEpisode();                // Sets walls to new locations and reactivate all checkpoints
+            
+            // Spawn agent and goal at random locations along the Z axis on opposite sides of environment
             transform.localPosition = new Vector3(-15f, 0f, Random.Range(-7f, 7f));
             targetTransform.localPosition = new Vector3(15f, 0f, Random.Range(-7f, 7f));
         }
@@ -43,11 +46,10 @@ public class conMovementAgent : Agent
         {
             // Give agent and target new starting position
             transform.localPosition = startPos;                                 // Reset agent to starting location
-            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));  // Set target to random position within environment for second brain
+            GoalRandPos();
             
             // Code below was used for the first brain training
             // Goal is randomly spawned in one of the 4 directions
-            
             /*
             int temp = Random.Range(0, 4);
             if(temp == 0)                                                       // Set position to be in positive X direction
@@ -65,20 +67,18 @@ public class conMovementAgent : Agent
     
     private void FixedUpdate()
     { 
+        // Update current cumulative reward on overlays
         // TrainingProgressText.Reward = GetCumulativeReward();
         stats.Reward = GetCumulativeReward();
 
-        AddReward(-(1f / MaxStep));
+        AddReward(-(1f / MaxStep));     // Punish agent each step
+        
     }
     
-    public override void CollectObservations(VectorSensor sensor)
-    {
-        // Observe the agents location and target location
-        // sensor.AddObservation(transform.localPosition);
-    }
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // TrainingProgressText.ScreenText();
+        // TrainingProgressText.ScreenText();           // Displays debugging overlay when simulating
+       
         // Store the continuous actions for X and Z positions
         float moveX = actions.ContinuousActions[0];
         float moveZ = actions.ContinuousActions[1];
@@ -101,8 +101,8 @@ public class conMovementAgent : Agent
     {
         if (collision.gameObject.CompareTag("Goal"))        // If agent reaches the goal
         {
-            // TrainingProgressText.Success++;                 // Update total success on overlay
-            stats.Success++;                 // Update total success on overlay
+            // TrainingProgressText.Success++;              // Update total success on debug overlay
+            stats.Success++;                                // Update total success on overlay above environment
             
             floorMeshRenderer.material = winMaterial;       // Set floor to pink to show it was successful
             AddReward(2f);                          // Reward agent
@@ -111,17 +111,17 @@ public class conMovementAgent : Agent
         
         if (collision.gameObject.CompareTag("Wall"))        // If agent goes out of bounds
         {
-            // TrainingProgressText.Fail++;                    // Update total fails on overlay
-            stats.Fail++;                    // Update total fails on overlay
+            // TrainingProgressText.Fail++;                 // Update total fails on debug overlay
+            stats.Fail++;                                   // Update total fails on overlay above environment
             
             floorMeshRenderer.material = loseMaterial;      // Set floor to red to show it failed
-            AddReward(-1.5f);                         // Punish agent
+            AddReward(-1.5f);                       // Punish agent
             EndEpisode();                                   // End current episode
         }
 
         if (collision.gameObject.CompareTag("Checkpoint"))  // If agent reaches checkpoint
         {
-            AddReward(0.25f);                        // Reward agent
+            AddReward(0.25f);                       // Reward agent
             collision.gameObject.SetActive(false);          // Set checkpoint to inactive
         }
     }

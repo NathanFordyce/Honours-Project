@@ -404,7 +404,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: a3d869b64f670ec4895828453f6e41df, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 67ca716dcb5244442a681b1818d47241, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 2
   m_BehaviorName: Movement
@@ -1203,7 +1203,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 00007d69ec864e144a99eed2d40a548f, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 8eb4f8203d5bffc488423dcb45dbb8da, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 2
   m_BehaviorName: Movement

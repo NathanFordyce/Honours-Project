@@ -26,13 +26,14 @@ public class kbmMovementAgent : Agent
     
     public override void OnEpisodeBegin()
     {
-        // TrainingProgressText.Episode++;             // Increment total episodes performed on overlay
-        stats.Episode++;             // Increment total episodes performed on overlay
+        // TrainingProgressText.Episode++;              // Increment total episodes on debug overlay
+        stats.Episode++;                                // Increment total episodes on overlay above environment
 
-        if (isWalls)        // If using wall environment
+        if (isWalls)                                    // If using wall environment
         {
-            obstacles.ResetForEpisode();            // Sets walls to new locations and reactivate all checkpoints
-            // Environment with walls spawn points
+            obstacles.ResetForEpisode();                // Sets walls to new locations and reactivate all checkpoints
+            
+            // Spawn agent and goal at random locations along the Z axis on opposite sides of environment
             transform.localPosition = new Vector3(-15f, 0f, Random.Range(-7f, 7f));
             targetTransform.localPosition = new Vector3(15f, 0f, Random.Range(-7f, 7f));
         }
@@ -40,7 +41,7 @@ public class kbmMovementAgent : Agent
         {
             // Give agent and target new starting position
             transform.localPosition = startPos;                                 // Reset agent to starting position
-            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));  // Set target to random position within environment for second brain
+            GoalRandPos();
             
             // Code below was used for the first brain training
             // Goal is randomly spawned in one of the 4 directions
@@ -60,20 +61,17 @@ public class kbmMovementAgent : Agent
 
     private void FixedUpdate()
     {
+        // Update current cumulative reward on overlays
         // TrainingProgressText.Reward = GetCumulativeReward();
         stats.Reward = GetCumulativeReward();
 
-        AddReward(-(1f / MaxStep));
+        AddReward(-(1f / MaxStep));     // Punish agent each step
     }
-
-    public override void CollectObservations(VectorSensor sensor)
-    {
-        // Observe the agents location and target location
-        // sensor.AddObservation(transform.localPosition);
-    }
+    
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // TrainingProgressText.ScreenText();
+        // TrainingProgressText.ScreenText();           // Displays debugging overlay when simulating
+        
         float moveX = 0;
         float moveZ = 0;
         
@@ -153,29 +151,29 @@ public class kbmMovementAgent : Agent
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Goal"))    // If agent reaches the goal
+        if (collision.gameObject.CompareTag("Goal"))        // If agent reaches the goal
         {
-            // TrainingProgressText.Success++;             // Increment total successes for overlay
-            stats.Success++;             // Increment total successes for overlay
+            // TrainingProgressText.Success++;              // Increment total successes on debug overlay
+            stats.Success++;                                // Increment total successes on overlay above environment
             
-            floorMeshRenderer.material = winMaterial;   // Set floor to pink to show agent was successful
-            AddReward(2f);                      // Reward agent
-            EndEpisode();                               // End current episode
+            floorMeshRenderer.material = winMaterial;       // Set floor to pink to show agent was successful
+            AddReward(2f);                          // Reward agent
+            EndEpisode();                                   // End current episode
         }
         
-        if (collision.gameObject.CompareTag("Wall"))    // If agent goes out of bounds
+        if (collision.gameObject.CompareTag("Wall"))        // If agent goes out of bounds
         {
-            // TrainingProgressText.Fail++;                // Increment total fails for overlay
-            stats.Fail++;                // Increment total fails for overlay
+            // TrainingProgressText.Fail++;                 // Increment total fails on debug overlay
+            stats.Fail++;                                   // Increment total fails on overlay above environment
             
-            floorMeshRenderer.material = loseMaterial;  // Set floor to red to show agent failed
-            AddReward(-1.5f);                     // Punish agent
-            EndEpisode();                               // End current episode
+            floorMeshRenderer.material = loseMaterial;      // Set floor to red to show agent failed
+            AddReward(-1.5f);                       // Punish agent
+            EndEpisode();                                   // End current episode
         }
 
         if (collision.gameObject.CompareTag("Checkpoint"))  // If agent reaches checkpoint
         {
-            AddReward(0.25f);                        // Reward agent
+            AddReward(0.25f);                       // Reward agent
             collision.gameObject.SetActive(false);          // Set checkpoint to inactive
         }
     }
