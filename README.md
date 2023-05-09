@@ -25,7 +25,7 @@ The brains being displayed in the Demo Scene can be found in the "Final Brains" 
 	- "1 Con Shoot"
 	- "1 Kbm Move"
 	- "1 Con Move"
-	- "2 Kbm Walls"
-	- "2 Con Walls"
+	- "3 Kbm Walls"
+	- "3 Con Walls"
 
 Every trained brain can be found both within the above folder and the "results" folder in the directory
