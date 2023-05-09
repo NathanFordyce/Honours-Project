@@ -60,13 +60,13 @@ public class conShootingAgent : Agent
             else if (hit.collider.CompareTag("Wall"))   // If shot at wall punish agent
             {
                 //floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-                AddReward(-0.2f);               // Punish agent
+                AddReward(-0.25f);               // Punish agent
             }
         }
         else                                            // If shoots and hits nothing
         {
             // floorMeshRenderer.material = loseMaterial;  // Set floor to red to show it failed
-            AddReward(-0.2f);                   // Punish agent
+            AddReward(-0.25f);                   // Punish agent
         }
 
         // Set shoot cooldown variables
@@ -76,8 +76,8 @@ public class conShootingAgent : Agent
 
     private void FixedUpdate()
     {
-        // TrainingProgressText.Reward = GetCumulativeReward();
-        stats.Reward = GetCumulativeReward();
+        TrainingProgressText.Reward = GetCumulativeReward();
+        // stats.Reward = GetCumulativeReward();
         
         AddReward(-(1f / MaxStep)); // Add small punishment each update
 
@@ -99,8 +99,8 @@ public class conShootingAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        // TrainingProgressText.Episode++;                 // Increment total episodes performed on overlay
-        stats.Episode++;                 // Increment total episodes performed on overlay
+        TrainingProgressText.Episode++;                 // Increment total episodes performed on overlay
+        // stats.Episode++;                 // Increment total episodes performed on overlay
         Debug.Log("Episode Begin");
 
         transform.localPosition = startPos;             // Reset agent to starting position
@@ -144,7 +144,7 @@ public class conShootingAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // TrainingProgressText.ScreenText();
+        TrainingProgressText.ScreenText();
 
         if(actions.DiscreteActions[0] == 1) 
             Shoot();    // Call shoot function
@@ -167,9 +167,9 @@ public class conShootingAgent : Agent
     public void EnemyDead()
     {
         floorMeshRenderer.material = winMaterial;   // Set floor to pink to show it was successful
-        // TrainingProgressText.Success++;             // Increment total successes on overlay
-        stats.Success++;             // Increment total successes on overlay
-        AddReward(1f);                      // Reward agent of killing enemy
+        TrainingProgressText.Success++;             // Increment total successes on overlay
+        // stats.Success++;             // Increment total successes on overlay
+        AddReward(1.5f);                      // Reward agent of killing enemy
         EndEpisode();                               // End current episode
     }
 
@@ -178,9 +178,9 @@ public class conShootingAgent : Agent
         if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy")      // If agent collides with environment or Enemy
         {
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show agent failed
-            // TrainingProgressText.Fail++;                // Increment total fails on overlay
-            stats.Fail++;                // Increment total fails on overlay
-            AddReward(-1f);                     // Punish agent
+            TrainingProgressText.Fail++;                // Increment total fails on overlay
+            // stats.Fail++;                // Increment total fails on overlay
+            AddReward(-2f);                     // Punish agent
             EndEpisode();                               // End current episode
         }
     }

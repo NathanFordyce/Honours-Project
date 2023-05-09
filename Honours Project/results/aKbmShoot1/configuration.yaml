@@ -46,7 +46,7 @@ behaviors:
           deterministic: false
         learning_rate: 0.0003
         encoding_size: 128
-    init_path: results\ConShoot1\Shooting\checkpoint.pt
+    init_path: results\KbmShoot_Start\Shooting\checkpoint.pt
     keep_checkpoints: 5
     checkpoint_interval: 500000
     max_steps: 100000
@@ -75,8 +75,8 @@ engine_settings:
   no_graphics: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: ConShoot2
-  initialize_from: ConShoot1
+  run_id: KbmShoot1
+  initialize_from: KbmShoot_Start
   load_model: false
   resume: false
   force: false

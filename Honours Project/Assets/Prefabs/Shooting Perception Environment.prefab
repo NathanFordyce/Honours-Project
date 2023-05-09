@@ -181,7 +181,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 1434fe91dd9b1cf488d702a55d5c0548, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 8855fbd0e4d9e9846971ef0640d24385, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 2
   m_BehaviorName: Shooting
@@ -1048,7 +1048,7 @@ GameObject:
   - component: {fileID: 3687116018943574307}
   - component: {fileID: 8746781134185248716}
   m_Layer: 0
-  m_Name: Agent
+  m_Name: Con Agent
   m_TagString: Agent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1170,7 +1170,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: cd785ba2e86fd64489be4ab67bd2641b, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 5ab9fa82cdab20c44b558f2ea3109a92, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 2
   m_BehaviorName: Shooting
@@ -1389,7 +1389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6712413363387128044
 RectTransform:
   m_ObjectHideFlags: 0
