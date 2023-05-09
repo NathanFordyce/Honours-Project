@@ -30,8 +30,8 @@ public class conMovementAgent : Agent
     
     public override void OnEpisodeBegin()
     {
-        TrainingProgressText.Episode++;
-        // stats.Episode++;
+        // TrainingProgressText.Episode++;
+        stats.Episode++;
         
         if (isWalls)    // If wall environment is being used
         {
@@ -43,13 +43,13 @@ public class conMovementAgent : Agent
         {
             // Give agent and target new starting position
             transform.localPosition = startPos;                                 // Reset agent to starting location
-            // targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));  // Set target to random position within environment for second brain
+            targetTransform.localPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));  // Set target to random position within environment for second brain
             
             // Code below was used for the first brain training
             // Goal is randomly spawned in one of the 4 directions
             
-            
-             int temp = Random.Range(0, 4);
+            /*
+            int temp = Random.Range(0, 4);
             if(temp == 0)                                                       // Set position to be in positive X direction
                 targetTransform.localPosition = new Vector3(3f, 0.35f, 0f);
             else if(temp == 1)                                                  // Set position to be in negative X direction
@@ -58,15 +58,15 @@ public class conMovementAgent : Agent
                 targetTransform.localPosition = new Vector3(0f, 0.35f, 3f);     
             else if (temp == 3)                                                 // Set position to be in negative Z direction
                 targetTransform.localPosition = new Vector3(0f, 0.35f, -3f);
-            
+            */
         }
         
     }
     
     private void FixedUpdate()
     { 
-        TrainingProgressText.Reward = GetCumulativeReward();
-        // stats.Reward = GetCumulativeReward();
+        // TrainingProgressText.Reward = GetCumulativeReward();
+        stats.Reward = GetCumulativeReward();
 
         AddReward(-(1f / MaxStep));
     }

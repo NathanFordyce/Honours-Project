@@ -71,8 +71,8 @@ public class kbmShootingAgent : Agent
 
     private void FixedUpdate()
     {
-        TrainingProgressText.Reward = GetCumulativeReward();
-        // stats.Reward = GetCumulativeReward();
+        // TrainingProgressText.Reward = GetCumulativeReward();
+        stats.Reward = GetCumulativeReward();
 
         AddReward(-(1f / MaxStep)); // Add small punishment each update
 
@@ -101,8 +101,8 @@ public class kbmShootingAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        TrainingProgressText.Episode++;             // Increment total episodes performed on overlay
-        // stats.Episode++;             // Increment total episodes performed on overlay
+        // TrainingProgressText.Episode++;             // Increment total episodes performed on overlay
+        stats.Episode++;             // Increment total episodes performed on overlay
         Debug.Log("Episode Begin");
 
         // Set agents start location and rotation
@@ -165,7 +165,7 @@ public class kbmShootingAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        TrainingProgressText.ScreenText();
+        // TrainingProgressText.ScreenText();
         
         // Store the continuous actions for X and Y positions
         float moveX = 0;
@@ -230,8 +230,8 @@ public class kbmShootingAgent : Agent
     public void EnemyDead()
     {
         floorMeshRenderer.material = winMaterial;   // Set floor to pink to show agent was successful
-        TrainingProgressText.Success++;             // Increment total success for overlay
-        // stats.Success++;             // Increment total success for overlay
+        // TrainingProgressText.Success++;             // Increment total success for overlay
+        stats.Success++;             // Increment total success for overlay
         AddReward(1.5f);                    // Reward agent of killing enemy
         EndEpisode();                               // End current episode
     }
@@ -241,8 +241,8 @@ public class kbmShootingAgent : Agent
         if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy") // If agent goes out of bounds
         {
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show agent failed
-            TrainingProgressText.Fail++;                // Increment total fails for overlay
-            // stats.Fail++;                // Increment total fails for overlay
+            // TrainingProgressText.Fail++;                // Increment total fails for overlay
+            stats.Fail++;                // Increment total fails for overlay
             AddReward(-2f);                     // Punish agent
             EndEpisode();                               // End current episode
         }
