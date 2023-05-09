@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class MiscObjects : MonoBehaviour
@@ -16,7 +13,7 @@ public class MiscObjects : MonoBehaviour
 
     public void ResetForEpisode()
     {
-        NewWallPos();   // Set walls to new position
+        NewWallPos();               // Set walls to new position
 
         // Loops through each checkpoint to see if inactive
         foreach (var point in checkpoints)
@@ -31,7 +28,7 @@ public class MiscObjects : MonoBehaviour
 
     private void NewWallPos()
     {
-        // Sets both walls to random Z values between -10 and 10
+        // Sets both walls to random X values between -10 and 10
         walls[0].localPosition = new Vector3(Random.Range(-10f, 10f), 1.7f, 5f);
         walls[1].localPosition = new Vector3(Random.Range(-10f, 10f), 1.7f, -5f);
         

@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
@@ -47,8 +43,6 @@ public class conShootingAgent : Agent
         var layerMask = 1 << LayerMask.NameToLayer("Enemy");
         var direction = transform.forward;
         
-        Debug.DrawRay(shootPoint.position, direction * 10f, Color.blue, 2f);
-
         if (Physics.Raycast(shootPoint.position, direction, out var hit, 10f, layerMask))
         {
             if (hit.transform.CompareTag("Enemy"))

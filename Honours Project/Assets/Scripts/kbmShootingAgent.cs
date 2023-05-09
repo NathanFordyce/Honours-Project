@@ -215,8 +215,6 @@ public class kbmShootingAgent : Agent
                 break;
         }
         
-        // transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;   // Move agent using actions received
-        
         if(actions.DiscreteActions[1] == 1) 
             Shoot();    // Call shoot function
         
@@ -230,8 +228,8 @@ public class kbmShootingAgent : Agent
     public void EnemyDead()
     {
         floorMeshRenderer.material = winMaterial;   // Set floor to pink to show agent was successful
-        // TrainingProgressText.Success++;             // Increment total success for overlay
-        stats.Success++;             // Increment total success for overlay
+        // TrainingProgressText.Success++;          // Increment total success on overlay
+        stats.Success++;                            // Increment total success on overlay above environment
         AddReward(1.5f);                    // Reward agent of killing enemy
         EndEpisode();                               // End current episode
     }
@@ -241,8 +239,8 @@ public class kbmShootingAgent : Agent
         if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy") // If agent goes out of bounds
         {
             floorMeshRenderer.material = loseMaterial;  // Set floor to red to show agent failed
-            // TrainingProgressText.Fail++;                // Increment total fails for overlay
-            stats.Fail++;                // Increment total fails for overlay
+            // TrainingProgressText.Fail++;             // Increment total fails on overlay
+            stats.Fail++;                               // Increment total fails on overlay above environment
             AddReward(-2f);                     // Punish agent
             EndEpisode();                               // End current episode
         }

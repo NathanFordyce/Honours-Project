@@ -7,16 +7,17 @@ The "Demo Scene" is the same scene which is within the .exe on MLS and can be ru
 
 
 If you wish to train an agent it will require the "venv" folder that can be found on the MLS submission.
-	- The venv should be saved and unzipped in the same directory as the unity project.
+	- The venv should be saved and unzipped in the same directory as the unity project
 	- Now within command line locate to the unity project directory
-	- For example "cd C:\Users\abc\Desktop\Honours-Project"
+	- For example "cd C:\Users\<user>\Desktop\Honours-Project"
 	- Now activate the venv using "venv\Scripts\activate"
-	- Command line should now say "(venv) C:\Users\abc\Desktop\Honours-Project"
+	- Command line should now say "(venv) C:\Users\<user>\Desktop\Honours-Project"
 	- Open one of the training scenes
 	- Open the corresponding environments prefab and select the agent
-	- Ensure the "Behaviour Type" is set to default and "Model" is None
+	- Ensure the "Behavior Type" is set to default and "Model" is None on the "Behavior Parameters" component
 	- On command line start the training using "mlagents-learn config/Movement.yaml --run-id=[Name of Choice]"
 	- If on the shooting environment use config/Shooting.yaml
+	- When unity logo appears on command line press play on unity
 
 ----------------
 

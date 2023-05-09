@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +12,7 @@ public class StatsText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Updates statistic overlay
         txtStats.text = string.Format("Episode={0}, Success={1}, Fail={2}, Reward={3}", 
             Episode, 
             Success, 

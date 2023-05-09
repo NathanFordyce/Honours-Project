@@ -1,7 +1,6 @@
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
-using Unity.MLAgents.Sensors;
 using Random = UnityEngine.Random;
 
 public class kbmMovementAgent : Agent
@@ -87,7 +86,6 @@ public class kbmMovementAgent : Agent
             case 2:             // Move agent back
                 moveX = -1;
                 transform.localPosition += new Vector3(moveX, 0, 0) * Time.deltaTime * moveSpeed;
-
                 break;
             case 3:             // Move agent left
                 moveZ = 1;

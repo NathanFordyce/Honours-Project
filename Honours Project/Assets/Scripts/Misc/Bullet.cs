@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -8,11 +6,11 @@ public class Bullet : MonoBehaviour
     
     private void Awake()
     {
-        Destroy(gameObject, life);
+        Destroy(gameObject, life);      // Destroy bullet after 3 seconds
     }
     
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        Destroy(gameObject);            // Destroy bullet if it collides with anything
     }
 }

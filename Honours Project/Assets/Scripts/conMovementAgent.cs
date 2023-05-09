@@ -1,7 +1,6 @@
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
-using Unity.MLAgents.Sensors;
 using Random = UnityEngine.Random;
 
 public class conMovementAgent : Agent
@@ -91,9 +90,9 @@ public class conMovementAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        ActionSegment<float> coninuousActions = actionsOut.ContinuousActions;
-        coninuousActions[0] = Input.GetAxisRaw("Vertical");         // W = 1 & S = -1 - Control
-        coninuousActions[1] = Input.GetAxisRaw("Horizontal");       // A = 1 & D = -1 - Control
+        ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
+        continuousActions[0] = Input.GetAxisRaw("Vertical");         // W = 1 & S = -1 - Control
+        continuousActions[1] = Input.GetAxisRaw("Horizontal");       // A = 1 & D = -1 - Control
 
     }
     
